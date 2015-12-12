@@ -7,8 +7,8 @@
 
 MainGameState::MainGameState(Game* t_game) : State(t_game), map({500, 500}, 600), generator(game) {
 
-	decisionShape1.setSize({ game->window.getSize().x / 2 - 140.0f / 2, 296.0f });
-	decisionShape2.setSize({ game->window.getSize().x / 2 - 140.0f / 2, 296.0f });
+	decisionShape1.setSize({ game->window.getSize().x / 2 - 268.0f / 2, 242.0f });
+	decisionShape2.setSize({ game->window.getSize().x / 2 - 268.0f / 2, 242.0f });
 
 	decisionShape1.setPosition({ 40, game->window.getSize().y / 2 - decisionShape1.getSize().y / 2 });
 	decisionShape2.setPosition({ game->window.getSize().x - decisionShape2.getSize().x - 40, game->window.getSize().y / 2 - decisionShape2.getSize().y / 2 });
@@ -36,6 +36,7 @@ void MainGameState::update() {
 
 
 			substate = CHOOSING;
+			decisionTimer = 0;
 		}
 
 	}
@@ -56,8 +57,8 @@ void MainGameState::render(sf::RenderTarget& target) {
 map.render(target);
 
 	if (substate == CHOOSING) {
-//		target.draw(decisionShape1);
-//		target.draw(decisionShape2);
+		target.draw(decisionShape1);
+		target.draw(decisionShape2);
 		target.draw(decisionText1);
 		target.draw(decisionText2);
 	}
@@ -85,7 +86,14 @@ void MainGameState::handleEvent(const sf::Event& event) {
 
 
 void MainGameState::handleDecision(const Decision& decision) {
-	std::cout << decision.message;
+	decision.callback(game);
 
+
+	
+
+
+
+
+	substate = RUNNING;
 
 }

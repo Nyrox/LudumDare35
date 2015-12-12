@@ -3,9 +3,11 @@
 #include <SFML/Graphics.hpp>
 #include <Thor/Resources.hpp>
 
+class Game;
+
 class Decision {
 public:
-	Decision(std::string message, int min, int max, int prob, sf::Texture* tex) : message(message), minDangerLevel(min), maxDangerLevel(max), probability(prob), image(tex) {
+	Decision(std::string message, int min, int max, int prob, sf::Texture* tex, std::function<void()> callback) : message(message), minDangerLevel(min), maxDangerLevel(max), probability(prob), image(tex) {
 
 	}
 	Decision(){ }
@@ -23,6 +25,7 @@ public:
 
 	sf::Texture* image; // Background image
 
+	std::function<void(Game*)> callback;
 	
 
 	/// Cheapstake
