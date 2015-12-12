@@ -17,6 +17,12 @@ class Map
     std::vector<Unit> leftUnits;
     std::vector<Unit> rightUnits;
 
+    float leftUnitRate = 1.f/5.f;
+    float rightUnitRate = 1.f/5.f;
+
+    float leftUnitSpawnTime = 0;
+    float rightUnitSpawnTime = 0;
+
     sf::Vector2f position;
     sf::Vector2f start;
     sf::Vector2f end;

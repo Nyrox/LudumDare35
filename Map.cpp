@@ -21,6 +21,21 @@ void Map::update(float dt)
 
     for(Unit& unit : rightUnits)
         unit.advancement += unit.speed*dt;
+
+    leftUnitSpawnTime += dt;
+    rightUnitSpawnTime += dt;
+
+    if(leftUnitSpawnTime >= leftUnitRate)
+    {
+        leftUnits.emplace_back();
+        leftUnitSpawnTime -= leftUnitRate;
+    }
+
+    if(rightUnitSpawnTime >= rightUnitRate)
+    {
+        rightUnits.emplace_back();
+        rightUnitSpawnTime -= rightUnitRate;
+    }
 }
 
 void Map::render(sf::RenderTarget& target)
