@@ -43,30 +43,20 @@ void Map::update(float dt)
 
     for(auto it = leftUnits.begin(); it != leftUnits.end(); it++)
     {
-<<<<<<< HEAD
-		if (it->life <= 0)
+		if (it->life <= 0 || it->advancement >= 1)
 			it = leftUnits.erase(it);
-		
+
 		if (it == leftUnits.end())
 			break;
-=======
-        if(it->life <= 0 || it->advancement >= 1)
-            it = leftUnits.begin() + (std::distance(leftUnits.begin(), leftUnits.erase(it)) - 1);
->>>>>>> 41eafe256020eb7ad0d69d56295b2a951493f504
     }
 
     for(auto it = rightUnits.begin(); it != rightUnits.end(); it++)
     {
-<<<<<<< HEAD
-		if (it->life <= 0)
+		if (it->life <= 0 || it->advancement >= 1)
 			it = rightUnits.erase(it);
 
 		if (it == rightUnits.end())
 			break;
-=======
-        if(it->life <= 0 || it->advancement >= 1)
-            it = rightUnits.begin() + (std::distance(rightUnits.begin(), rightUnits.erase(it)) - 1);
->>>>>>> 41eafe256020eb7ad0d69d56295b2a951493f504
     }
 
     leftUnitSpawnTime += dt;
