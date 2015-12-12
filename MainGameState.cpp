@@ -27,6 +27,22 @@ void MainGameState::update() {
 		decisionTimer += game->deltaTime;
 
 
+
+		left.accumulator += game->deltaTime;
+		if (left.accumulator * left.spawnRateModifier >= 1 / Player::baseSpawnRate) {
+			left.accumulator = 0;
+			map.spawnUnit(Unit(game, &left), Map::LEFT);
+			
+		}
+
+		right.accumulator += game->deltaTime;
+		if (right.accumulator * right.spawnRateModifier >= 1 / Player::baseSpawnRate) {
+			right.accumulator = 0;
+			map.spawnUnit(Unit(game, &right), Map::RIGHT);
+		}
+
+
+
 		if (decisionTimer >= 2) {
 			d1 = generator.getDecision(dangerLevel);
 			d2 = generator.getDecision(dangerLevel, &d1);
@@ -43,6 +59,9 @@ void MainGameState::update() {
 			substate = CHOOSING;
 			decisionTimer = 0;
 		}
+
+
+
 
 	}
 
