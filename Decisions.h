@@ -7,7 +7,7 @@ class Game;
 
 class Decision {
 public:
-	Decision(std::string message, int min, int max, int prob, sf::Texture* tex, std::function<void(Game*)> callback) : message(message), minDangerLevel(min), maxDangerLevel(max), probability(prob), image(tex) {
+	Decision(std::string message, int min, int max, int prob, sf::Texture* tex, std::function<void(Game*)> callback) : message(message), minDangerLevel(min), maxDangerLevel(max), probability(prob), image(tex), callback(callback) {
 
 	}
 	Decision(){ }
