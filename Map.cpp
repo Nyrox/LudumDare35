@@ -36,27 +36,37 @@ void Map::update(float dt)
     std::sort(rightUnits.begin(), rightUnits.end(), [](const Unit& first, const Unit& second){return first.advancement > second.advancement;});
 
     for(Unit& unit : leftUnits)
-        unit.moving = ((unit.advancement+rightUnits.front().advancement+unit.range) <= 1.f);
+        unit.moving = (rightUnits.size() ? (unit.advancement+rightUnits.front().advancement+unit.range) <= 1.f : true);
 
     for(Unit& unit : rightUnits)
-        unit.moving = ((unit.advancement+leftUnits.front().advancement+unit.range) <= 1.f);
+        unit.moving = (leftUnits.size() ? (unit.advancement+leftUnits.front().advancement+unit.range) <= 1.f : true);
 
     for(auto it = leftUnits.begin(); it != leftUnits.end(); it++)
     {
+<<<<<<< HEAD
 		if (it->life <= 0)
 			it = leftUnits.erase(it);
 		
 		if (it == leftUnits.end())
 			break;
+=======
+        if(it->life <= 0 || it->advancement >= 1)
+            it = leftUnits.begin() + (std::distance(leftUnits.begin(), leftUnits.erase(it)) - 1);
+>>>>>>> 41eafe256020eb7ad0d69d56295b2a951493f504
     }
 
     for(auto it = rightUnits.begin(); it != rightUnits.end(); it++)
     {
+<<<<<<< HEAD
 		if (it->life <= 0)
 			it = rightUnits.erase(it);
 
 		if (it == rightUnits.end())
 			break;
+=======
+        if(it->life <= 0 || it->advancement >= 1)
+            it = rightUnits.begin() + (std::distance(rightUnits.begin(), rightUnits.erase(it)) - 1);
+>>>>>>> 41eafe256020eb7ad0d69d56295b2a951493f504
     }
 
     leftUnitSpawnTime += dt;
