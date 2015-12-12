@@ -5,27 +5,28 @@
 
 #include "Unit.h"
 
-class Map
-{
-    public:
-        Map(sf::Vector2f position, float length);
-        virtual ~Map();
+class Map {
+public:
+	Map(sf::Vector2f position, float length);
+	virtual ~Map();
 
-        void update(float dt);
-        void render(sf::RenderTarget& target);
+	enum Sides { LEFT, RIGHT };
+	void spawnUnit(Unit unit, Sides side);
 
-    std::vector<Unit> leftUnits;
-    std::vector<Unit> rightUnits;
+	void update(float dt);
+	void render(sf::RenderTarget& target);
 
-    float rightUnitRate = 5.f;
-    float leftUnitRate = 5.f;
 
-    float leftUnitSpawnTime = 0;
-    float rightUnitSpawnTime = 0;
+	std::vector<Unit> leftUnits;
+	std::vector<Unit> rightUnits;
 
-    sf::Vector2f position;
-    sf::Vector2f start;
-    sf::Vector2f end;
+	float rightUnitRate = 5.f;
+	float leftUnitRate = 5.f;
+
+
+	sf::Vector2f position;
+	sf::Vector2f start;
+	sf::Vector2f end;
 };
 
 #endif // MAP_H

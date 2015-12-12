@@ -14,6 +14,14 @@ Map::~Map()
 {
 }
 
+void Map::spawnUnit(Unit unit, Sides side) {
+	(side == LEFT ? leftUnits : rightUnits).push_back(unit);
+}
+
+
+
+
+
 void Map::update(float dt)
 {
     for(Unit& unit : leftUnits)
@@ -69,20 +77,7 @@ void Map::update(float dt)
 
     }
 
-    leftUnitSpawnTime += dt;
-    rightUnitSpawnTime += dt;
-
-    if(leftUnitSpawnTime >= leftUnitRate)
-    {
-        leftUnits.emplace_back();
-        leftUnitSpawnTime -= leftUnitRate;
-    }
-
-    if(rightUnitSpawnTime >= rightUnitRate)
-    {
-        rightUnits.emplace_back();
-        rightUnitSpawnTime -= rightUnitRate;
-    }
+  
 }
 
 void Map::render(sf::RenderTarget& target)
