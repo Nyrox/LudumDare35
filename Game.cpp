@@ -1,8 +1,6 @@
 #include "Game.h"
 
-
 Game::Game(const BasicConfig& config) : window(config.video_mode, config.window_title, config.window_style) {
-
 
 }
 
@@ -13,35 +11,28 @@ void Game::run() {
 
 	while (window.isOpen()) {
 
-		accumulatedTime += deltaClock.getElapsedTime();
-		deltaTime = deltaClock.restart().asSeconds();
-
-
 		while (window.pollEvent(event)) {
 			if (event.type == sf::Event::Closed) {
 				window.close();
 				goto mainLoopEnd;
 			}
 
-
-
 			activeState->handleEvent(event);
 		}
 
 		window.clear();
 
+		deltaTime += deltaClock.restart().asSeconds();
 
-		if (accumulatedTime.asSeconds() >= 1.0f / C_TICKRATE) {
+		if (deltaTime >= 1.0f / C_TICKRATE) {
 			activeState->update();
-			accumulatedTime -= sf::seconds(1.0f / C_TICKRATE);
+//			deltaTime -= sf::seconds(1.0f / C_TICKRATE);
+			deltaTime = 0;
 		}
 
 		activeState->render(window);
 
-
-
 		window.display();
-
 	}
 
 	mainLoopEnd:
