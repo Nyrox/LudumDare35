@@ -1,6 +1,6 @@
 #pragma once
 
-#include <SFML\Audio.hpp>
+#include <SFML/Audio.hpp>
 
 #include "State.h"
 #include "MainGameState.h"
@@ -20,19 +20,19 @@ public:
 
 
 	void run();
-	
+
 
 
 
 	std::shared_ptr<State> activeState = std::make_shared<MainGameState>(this);
 
-	
+
 	thor::ResourceHolder<sf::Texture, std::string> textures;
-	
+
 
 
 	sf::RenderWindow window;
-	
+
 	Debug debug;
 
 
@@ -41,7 +41,7 @@ public:
 	sf::Time accumulatedTime = sf::Time::Zero;
 
 private:
-	
+
 
 
 };

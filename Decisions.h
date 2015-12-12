@@ -1,7 +1,7 @@
 #pragma once
 #include <string>
-#include <SFML\Graphics.hpp>
-#include <Thor\Resources.hpp>
+#include <SFML/Graphics.hpp>
+#include <Thor/Resources.hpp>
 
 class Decision {
 public:
@@ -14,7 +14,7 @@ public:
 
 
 	std::string message;
-	
+
 	int minDangerLevel; // Used to retrieve the time at which to spawn this
 	int prefferedDangerLevel; // Used to retrieve the time at which this ist he likeliest, to interpolate based on
 	int maxDangerLevel; // Used to retrieve the time at which to stop spawning
