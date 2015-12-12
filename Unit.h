@@ -13,7 +13,8 @@ class Unit
 
     float advancement = 0;
     float speed = 0.1f;
-    int life = 100;
+    int maxLife = 100;
+    int life = maxLife;
     int damage = life/3;
     float range = 0.5;
 
