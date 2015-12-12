@@ -5,6 +5,12 @@
 
 #include "Unit.h"
 
+
+const sf::Vector2f left_line_start(100.0f, 600.0f);
+const sf::Vector2f left_line_end(150.0f, 100.0f);
+const sf::Vector2f right_line_start(800.0f, 600.0f);
+const sf::Vector2f right_line_end(750.0f, 100.0f);
+
 class Map {
 public:
 	Map(sf::Vector2f position, float length);
@@ -24,9 +30,7 @@ public:
 	float leftUnitRate = 5.f;
 
 
-	sf::Vector2f position;
-	sf::Vector2f start;
-	sf::Vector2f end;
+	
 };
 
 #endif // MAP_H

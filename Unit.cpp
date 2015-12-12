@@ -1,29 +1,27 @@
 #include "Unit.h"
+#include "Game.h"
 
-Unit::Unit()
-{
+#include "Player.h"
+
+
+const float Unit::baseFireRate = 0.5f;
+
+
+
+Unit::Unit(Game* game, Player* player) : player(player) {
+
+	shape.setSize({ 32, 32 });
+	shape.setTexture(&game->textures["Infantry"]);
 }
 
 Unit::~Unit()
 {
 }
 
-void Unit::render(sf::RenderTarget& target, sf::Vector2f position)
+void Unit::render(sf::RenderTarget& target)
 {
-    sf::RectangleShape shape;
-    shape.setPosition(position);
-    shape.setSize({50, 50});
-    target.draw(shape);
+	sf::RenderStates states;
+	states.transform = getTransform();
 
-    sf::RectangleShape lifeBar;
-
-    lifeBar.setFillColor(sf::Color::Green);
-    lifeBar.setPosition(position - sf::Vector2f(0, 30));
-    lifeBar.setSize({50.f*((float)life/maxLife),5.f});
-    target.draw(lifeBar);
-
-    lifeBar.setFillColor(sf::Color::Red);
-    lifeBar.setSize({50.f*((float)life/maxLife)-50.f, 5.f});
-    lifeBar.setPosition(position - sf::Vector2f(-50, 30));
-    target.draw(lifeBar);
+	target.draw(shape, states);
 }

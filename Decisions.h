@@ -4,10 +4,11 @@
 #include <Thor/Resources.hpp>
 
 class Game;
+class Player;
 
 class Decision {
 public:
-	Decision(std::string message, int min, int max, int prob, sf::Texture* tex, std::function<void(Game*)> callback) : message(message), minDangerLevel(min), maxDangerLevel(max), probability(prob), image(tex), callback(callback) {
+	Decision(std::string message, int min, int max, int prob, sf::Texture* tex, std::function<void(Game*, Player*)> callback) : message(message), minDangerLevel(min), maxDangerLevel(max), probability(prob), image(tex), callback(callback) {
 
 	}
 	Decision(){ }
@@ -25,7 +26,7 @@ public:
 
 	sf::Texture* image; // Background image
 
-	std::function<void(Game*)> callback;
+	std::function<void(Game*, Player*)> callback;
 
 
 	/// Cheapstake

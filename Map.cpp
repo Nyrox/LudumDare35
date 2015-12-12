@@ -1,90 +1,94 @@
 #include "Map.h"
 
-Map::Map(sf::Vector2f position, float length)
-{
-    this->position = position;
-    start = position - sf::Vector2f(length/2.f, 0);
-    end = position + sf::Vector2f(length/2.f, 0);
+Map::Map(sf::Vector2f position, float length) {
 
-    leftUnits.emplace_back();
-    rightUnits.emplace_back();
 }
 
-Map::~Map()
-{
+Map::~Map() {
 }
+
+#include "MathHelper.h"
+#include "Player.h"
 
 void Map::spawnUnit(Unit unit, Sides side) {
 	(side == LEFT ? leftUnits : rightUnits).push_back(unit);
+	Unit& ref = (side == LEFT ? leftUnits : rightUnits).back();
+
+	// Map a random factor onto the lines
+	float result = math::rand<float>(1.0);
+
+	sf::Vector2f start = side == LEFT ? left_line_start : right_line_start;
+	sf::Vector2f end = side == LEFT ? left_line_end : right_line_end;
+
+	sf::Vector2f diff = end - start;
+
+	sf::Vector2f position = start + diff * result;
+	
+	ref.setPosition(position);
+	if (side == RIGHT) ref.setScale(-1, 1);
+
+	ref.scale(1.2 - result, 1.2 - result);
+
+
 }
 
 
+void Map::update(float dt) {
+	
+	
+	for (auto &it : leftUnits) {
+		it.accumulator += dt;
+		if (it.accumulator * it.player->fireRateModifier >= 1 / Unit::baseFireRate) {
+			it.accumulator = 0;
 
+			int result = math::rand<int>(rightUnits.size() - 1);
+			rightUnits.at(result).life -= Unit::baseDamage * it.player->damageModifier;
+			if (rightUnits.at(result).life <= 0) {
+				rightUnits.at(result).flaggedToDie = true;
 
+			}
 
-void Map::update(float dt)
-{
-    for(Unit& unit : leftUnits)
-    {
-        if(unit.moving)
-            unit.advancement += unit.speed*dt;
-        else
-            rightUnits.front().life = std::max(0.f, rightUnits.front().life-unit.damage*dt);
-    }
+		}
+	}
 
-    for(Unit& unit : rightUnits)
-    {
-        if(unit.moving)
-            unit.advancement += unit.speed*dt;
-        else
-            leftUnits.front().life = std::max(0.f, leftUnits.front().life-unit.damage*dt);
-    }
+	for (auto it = rightUnits.begin(); it != rightUnits.end(); it++) {
+		it->accumulator += dt;
+		if (it->accumulator * it->player->fireRateModifier >= 1 / Unit::baseFireRate) {
+			it->accumulator = 0;
 
-    std::sort(leftUnits.begin(), leftUnits.end(), [](const Unit& first, const Unit& second){return first.advancement > second.advancement;});
-    std::sort(rightUnits.begin(), rightUnits.end(), [](const Unit& first, const Unit& second){return first.advancement > second.advancement;});
+			int result = math::rand<int>(leftUnits.size() - 1);
+			leftUnits.at(result).life -= Unit::baseDamage * it->player->damageModifier;
+			if (leftUnits.at(result).life <= 0) {
+				leftUnits.at(result).flaggedToDie = true;
+			}
+		}
 
-    for(Unit& unit : leftUnits)
-        unit.moving = (rightUnits.size() ? (unit.advancement+rightUnits.front().advancement+unit.range) <= 1.f : true);
-
-    for(Unit& unit : rightUnits)
-        unit.moving = (leftUnits.size() ? (unit.advancement+leftUnits.front().advancement+unit.range) <= 1.f : true);
-
-    for(auto it = leftUnits.begin(); it != leftUnits.end(); it++)
-    {
-
-		if (it->life <= 0)
-			it = leftUnits.erase(it);
-		
-		if (it == leftUnits.end())
-			break;
-
-        if(it->life <= 0 || it->advancement >= 1)
-            it = leftUnits.begin() + (std::distance(leftUnits.begin(), leftUnits.erase(it)) - 1);
-
-    }
-
-    for(auto it = rightUnits.begin(); it != rightUnits.end(); it++)
-    {
-
-		if (it->life <= 0)
+		if (it->flaggedToDie == true) {
 			it = rightUnits.erase(it);
+			if (it == rightUnits.end()) {
+				break;
+			}
+		}
+		
+	}
 
-		if (it == rightUnits.end())
+	for (auto it = leftUnits.begin(); it != leftUnits.end(); it++) {
+		if (it->flaggedToDie == true) {
+			it = leftUnits.erase(it);
+		}
+
+		if (it == leftUnits.end()) {
 			break;
+		}
+	}
 
-        if(it->life <= 0 || it->advancement >= 1)
-            it = rightUnits.begin() + (std::distance(rightUnits.begin(), rightUnits.erase(it)) - 1);
 
-    }
-
-  
 }
 
-void Map::render(sf::RenderTarget& target)
-{
-    for(Unit& unit : leftUnits)
-        unit.render(target, start + (end-start)*unit.advancement);
+void Map::render(sf::RenderTarget& target) {
+	for (Unit& unit : leftUnits)
+		unit.render(target);
 
-    for(Unit& unit : rightUnits)
-        unit.render(target, end - (end-start)*unit.advancement);
+	for (Unit& unit : rightUnits)
+		unit.render(target);
 }

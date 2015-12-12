@@ -5,6 +5,8 @@
 
 #include "DecisionGenerator.h"
 #include "Map.h"
+#include "Player.h"
+
 
 class MainGameState : public State {
 public:
@@ -35,6 +37,9 @@ public:
 	sf::Text decisionText1;
 	sf::Text decisionText2;
 
+
+	Player left;
+	Player right;
 private:
 
 

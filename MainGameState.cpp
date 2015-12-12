@@ -13,6 +13,11 @@ MainGameState::MainGameState(Game* t_game) : State(t_game), map({500, 500}, 600)
 	decisionShape1.setPosition({ 40, game->window.getSize().y / 2 - decisionShape1.getSize().y / 2 });
 	decisionShape2.setPosition({ game->window.getSize().x - decisionShape2.getSize().x - 40, game->window.getSize().y / 2 - decisionShape2.getSize().y / 2 });
 
+	game->textures.acquire("Infantry", thor::Resources::fromFile<sf::Texture>("assets/Infantry.png"));
+
+	map.spawnUnit(Unit(game, &left), Map::LEFT);
+	map.spawnUnit(Unit(game, &right), Map::RIGHT);
+
 }
 
 void MainGameState::update() {
@@ -86,7 +91,7 @@ void MainGameState::handleEvent(const sf::Event& event) {
 
 
 void MainGameState::handleDecision(const Decision& decision) {
-	decision.callback(game);
+	decision.callback(game, &left);
 
 
 	

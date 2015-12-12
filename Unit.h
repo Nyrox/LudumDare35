@@ -3,22 +3,35 @@
 
 #include <SFML/Graphics.hpp>
 
-class Unit
-{
-    public:
-        Unit();
-        virtual ~Unit();
+class Game;
+class Player;
 
-        void render(sf::RenderTarget& target, sf::Vector2f position);
 
-    float advancement = 0;
-    float speed = 0.1f;
-    int maxLife = 100;
-    int life = maxLife;
-    int damage = life/3;
-    float range = 0.5;
+class Unit : public sf::Transformable {
+public:
+	Unit(Game* game, Player* player);
+	virtual ~Unit();
 
-    bool moving = true;
+	sf::RectangleShape shape;
+
+
+	void render(sf::RenderTarget& target);
+
+	Player* player; // Used to get global modifiers
+
+	int life;
+	float accumulator = 0; // Stores the time since the last time the Unit fired
+
+
+	const static int baseLife = 100;
+	const static int baseDamage = 40;
+
+	const static float baseFireRate; // 0.5f
+	
+
+	bool flaggedToDie = false;
 };
+
+
 
 #endif // UNIT_H
