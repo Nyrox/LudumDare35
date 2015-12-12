@@ -14,6 +14,8 @@ public:
 	virtual void render(sf::RenderTarget& target) override;
 	virtual void update() override;
 
+	void MainGameState::handleDecision(const Decision& decision);
+
 	float decisionTimer = 0;
 
 	enum SubState {

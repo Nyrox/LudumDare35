@@ -12,6 +12,13 @@ DecisionGenerator::DecisionGenerator() {
 			"Stay defensive!", 0, 10, 2, nullptr
 		);
 
+
+
+
+
+
+
+
 	updateDangerLevel(0);
 
 }

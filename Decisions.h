@@ -23,7 +23,7 @@ public:
 
 	sf::Texture* image; // Background image
 
-
+	
 
 	/// Cheapstake
 	bool operator==(const Decision& rhs) {
