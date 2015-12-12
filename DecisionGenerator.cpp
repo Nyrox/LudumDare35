@@ -50,7 +50,7 @@ void DecisionGenerator::updateDangerLevel(int level) {
 	for (auto it = eligable.begin(); it != eligable.end(); it++) {
 		if (it->maxDangerLevel > level) {
 			it = eligable.erase(it);
-			it--;
+			it = it - 1;
 		}
 	}
 
@@ -60,7 +60,7 @@ void DecisionGenerator::updateDangerLevel(int level) {
 		if (it->minDangerLevel == level) {
 			eligable.push_back(*it);
 			it = decisions.erase(it);
-			it--;
+			it = it - 1;
 		}
 	}
 }
