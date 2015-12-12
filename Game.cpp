@@ -27,7 +27,6 @@ void Game::run() {
 
 		if (deltaTime >= 1.0f / C_TICKRATE) {
 			activeState->update();
-//			deltaTime -= sf::seconds(1.0f / C_TICKRATE);
 			deltaTime = 0;
 		}
 

@@ -56,8 +56,7 @@ void DecisionGenerator::updateDangerLevel(int level) {
 	// remove decisions from the array that are too advanced
 	for (auto it = eligable.begin(); it != eligable.end(); it++) {
 		if (it->maxDangerLevel > level) {
-			it = eligable.erase(it);
-			it = it - 1;
+			it = eligable.begin() + (std::distance(eligable.begin(), eligable.erase(it)) - 1);
 		}
 	}
 
@@ -66,6 +65,7 @@ void DecisionGenerator::updateDangerLevel(int level) {
 	for (auto it = decisions.begin(); it != decisions.end(); it++) {
 		if (it->minDangerLevel == level) {
 			eligable.push_back(*it);
-		}
+			it = decisions.begin() + (std::distance(decisions.begin(), decisions.erase(it)) - 1);
+        }
 	}
 }

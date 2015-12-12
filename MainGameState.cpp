@@ -57,14 +57,14 @@ void MainGameState::update() {
 
 	}
 
-
-
 	game->debug.log("Info", std::to_string(game->deltaTime));
-
+	map.update(game->deltaTime);
 }
 
 void MainGameState::render(sf::RenderTarget& target) {
-	
+
+map.render(target);
+
 	if (substate == CHOOSING) {
 		target.draw(decisionShape1);
 		target.draw(decisionShape2);
