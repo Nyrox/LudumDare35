@@ -42,6 +42,10 @@ namespace math {
 		return dist(standard_rand_engine);
 	};
 
+	inline float rand(float max) {
+		return rand(0, max);
+	};
+
 	inline double rand(double min, double max) {
 		std::uniform_real_distribution<double> dist(min, max);
 		return dist(standard_rand_engine);

@@ -3,6 +3,7 @@
 #include "Debug.h"
 #include "MathHelper.h"
 
+#include "DecisionGenerator.h"
 
 class MainGameState : public State {
 public: 
@@ -16,8 +17,21 @@ public:
 
 
 
+	float decisionTimer = 0;
+
+
+	enum SubState {
+		RUNNING, CHOOSING
+	} substate = RUNNING;
+
+	DecisionGenerator generator;
+	Decision d1, d2;
+
+	int dangerLevel = 0;
 
 private:
+
+
 
 
 

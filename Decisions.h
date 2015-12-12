@@ -5,9 +5,10 @@
 
 class Decision {
 public:
-	Decision(std::string message, int min, int max, int pref, int prob, sf::Texture* tex) : message(message), minDangerLevel(min), maxDangerLevel(max), prefferedDangerLevel(pref), probability(prob), image(tex) {
+	Decision(std::string message, int min, int max, int prob, sf::Texture* tex) : message(message), minDangerLevel(min), maxDangerLevel(max), probability(prob), image(tex) {
 
 	}
+	Decision(){ }
 	virtual ~Decision() = default;
 
 
@@ -16,13 +17,21 @@ public:
 	std::string message;
 
 	int minDangerLevel; // Used to retrieve the time at which to spawn this
-	int prefferedDangerLevel; // Used to retrieve the time at which this ist he likeliest, to interpolate based on
 	int maxDangerLevel; // Used to retrieve the time at which to stop spawning
 
 	int probability; // Used to do calculations
 
 	sf::Texture* image; // Background image
 
+
+
+	/// Cheapstake
+	bool operator==(const Decision& rhs) {
+		if (message == rhs.message)
+			return true;
+
+
+	}
 
 };
 
