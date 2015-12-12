@@ -13,12 +13,6 @@ DecisionGenerator::DecisionGenerator() {
 		);
 
 
-
-
-
-
-
-
 	updateDangerLevel(0);
 
 }
@@ -30,6 +24,9 @@ Decision DecisionGenerator::getDecision(int dangerLevel, Decision* filter) {
 	float totalPropability = 0;
 
 	for (auto& it : eligable) {
+		if (filter != nullptr && *filter == it)
+			continue;
+
 		totalPropability += it.probability;
 	}
 
@@ -65,7 +62,6 @@ void DecisionGenerator::updateDangerLevel(int level) {
 	for (auto it = decisions.begin(); it != decisions.end(); it++) {
 		if (it->minDangerLevel == level) {
 			eligable.push_back(*it);
-			it = decisions.begin() + (std::distance(decisions.begin(), decisions.erase(it)) - 1);
-        }
+		}
 	}
 }
