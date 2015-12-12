@@ -24,7 +24,7 @@ public:
 
 
 	std::shared_ptr<State> activeState;
-
+	std::shared_ptr<State> nextState = nullptr;
 
 	thor::ResourceHolder<sf::Texture, std::string> textures;
 
