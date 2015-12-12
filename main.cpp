@@ -1,7 +1,5 @@
 #pragma once
-#include <SFML\Graphics.hpp>
-
-
+#include <SFML/Graphics.hpp>
 
 void Nyrox() {
 
@@ -20,6 +18,5 @@ int main() {
 
 	Game game(config);
 	game.run();
-
 
 }

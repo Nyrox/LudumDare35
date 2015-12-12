@@ -30,7 +30,7 @@ namespace math {
 
 	template<class T> T rand(T min, T max) {
 		std::uniform_int_distribution<T> dist(min, max);
-		return dist(utilityRandEngine);
+		return dist(standard_rand_engine);
 	};
 
 	template<class T> T rand(T max) {

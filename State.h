@@ -2,8 +2,7 @@
 
 class Game;
 
-
-#include <SFML\Graphics.hpp>
+#include <SFML/Graphics.hpp>
 
 class State {
 public:
