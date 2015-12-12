@@ -29,6 +29,14 @@ public:
 
 	int dangerLevel = 0;
 
+	sf::RectangleShape decisionShape1;
+	sf::RectangleShape decisionShape2;
+
+	sf::Text decisionText1;
+	sf::Text decisionText2;
+
+
+
 private:
 
 

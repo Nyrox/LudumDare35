@@ -24,7 +24,7 @@ public:
 
 
 
-	std::shared_ptr<State> activeState = std::make_shared<MainGameState>(this);
+	std::shared_ptr<State> activeState;
 
 
 	thor::ResourceHolder<sf::Texture, std::string> textures;
