@@ -1,5 +1,7 @@
 #pragma once
 
+#include <SFML\Audio.hpp>
+
 #include "State.h"
 #include "MainGameState.h"
 
@@ -7,6 +9,7 @@
 
 #include "Debug.h"
 #include "BasicConfig.h"
+#include "DecisionGenerator.h"
 
 constexpr float C_TICKRATE = 60;
 
@@ -23,7 +26,9 @@ public:
 
 	std::shared_ptr<State> activeState = std::make_shared<MainGameState>(this);
 
-
+	
+	thor::ResourceHolder<sf::Texture, std::string> textures;
+	
 
 
 	sf::RenderWindow window;
