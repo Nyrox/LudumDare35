@@ -51,6 +51,10 @@ namespace math {
 		return dist(standard_rand_engine);
 	};
 
+	inline double rand(double max) {
+		return rand(0.0, max);
+	};
+
 	template<class T> T getDistance(sf::Vector2<T> v1, sf::Vector2<T> v2) {
 		T kx = v1.x - v2.x;
 		T ky = v1.y - v2.y;

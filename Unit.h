@@ -3,6 +3,8 @@
 
 #include <SFML/Graphics.hpp>
 
+#include "Animation.h"
+
 class Game;
 class Player;
 
@@ -12,8 +14,7 @@ public:
 	Unit(Game* game, Player* player);
 	virtual ~Unit();
 
-	sf::RectangleShape shape;
-
+	Animation shape;
 
 	void render(sf::RenderTarget& target);
 
@@ -27,7 +28,7 @@ public:
 	const static int baseDamage = 40;
 
 	const static float baseFireRate; // 0.5f
-	
+
 
 	bool flaggedToDie = false;
 };
