@@ -77,4 +77,25 @@ void MainGameState::render(sf::RenderTarget& target) {
 
 void MainGameState::handleEvent(const sf::Event& event) {
 
+
+	if (substate == CHOOSING) {
+		if (event.type == sf::Event::MouseButtonPressed) {
+			if (decisionShape1.getGlobalBounds().contains((sf::Vector2f) sf::Mouse::getPosition(game->window))) {
+				handleDecision(d1);
+			}
+			else if (
+				decisionShape2.getGlobalBounds().contains((sf::Vector2f) sf::Mouse::getPosition(game->window))) {
+				handleDecision(d2);
+			}
+		}
+	}
+
+
+}
+
+
+void MainGameState::handleDecision(const Decision& decision) {
+	std::cout << decision.message;
+
+
 }

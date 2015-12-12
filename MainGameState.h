@@ -14,7 +14,7 @@ public:
 	virtual void update() override;
 
 
-
+	void MainGameState::handleDecision(const Decision& decision);
 
 
 	float decisionTimer = 0;
