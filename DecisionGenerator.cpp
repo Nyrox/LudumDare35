@@ -2,6 +2,8 @@
 
 
 #include "Game.h"
+#include <memory>
+#include "EndGameState.h"
 
 DecisionGenerator::DecisionGenerator(Game* game) : game(game) {
 
@@ -17,6 +19,20 @@ DecisionGenerator::DecisionGenerator(Game* game) : game(game) {
 		
 			}
 		);
+
+
+
+	decisions.emplace_back(
+		"End the war...", 15, 30, 3, &game->textures.acquire("EndTheWar", thor::ResourceLoader<sf::Texture>(thor::Resources::fromFile<sf::Texture>("assets/EndTheWar.png"))), [](Game* game, Player* player) {
+		auto sp = std::make_shared<sf::RenderTexture>();
+		sp->create(game->window.getSize().x, game->window.getSize().y);
+		game->activeState->render(*sp.get());
+		sp->display();
+		game->nextState = std::make_shared<EndGameState>(game, sp);
+			}
+		);
+
+
 
 
 	updateDangerLevel(0);
@@ -43,7 +59,7 @@ Decision DecisionGenerator::getDecision(int dangerLevel, Decision* filter) {
 		currentProb += it.probability;
 		if (result <= currentProb) {
 			if (filter != nullptr) {
-				if (*filter == it)
+				if (*filter == it && it.message != "End the war...") // #Bodged
 					continue;
 			}
 
@@ -58,15 +74,17 @@ void DecisionGenerator::updateDangerLevel(int level) {
 
 	// remove decisions from the array that are too advanced
 	for (auto it = eligable.begin(); it != eligable.end(); it++) {
-		if (it->maxDangerLevel > level) {
-			it = eligable.begin() + (std::distance(eligable.begin(), eligable.erase(it)) - 1);
+		if (it->maxDangerLevel < level) {
+			it = eligable.erase(it);
 		}
+		if (it == eligable.end())
+			break;
 	}
 
 
 	// add decisions to the array that are now eligable
 	for (auto it = decisions.begin(); it != decisions.end(); it++) {
-		if (it->minDangerLevel == level) {
+		if (it->minDangerLevel >= level) {
 			eligable.push_back(*it);
 		}
 	}

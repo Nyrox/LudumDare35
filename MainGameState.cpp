@@ -18,6 +18,8 @@ MainGameState::MainGameState(Game* t_game) : State(t_game), map({500, 500}, 600)
 	map.spawnUnit(Unit(game, &left), Map::LEFT);
 	map.spawnUnit(Unit(game, &right), Map::RIGHT);
 
+
+	dangerLevel = 20;
 }
 
 void MainGameState::update() {
@@ -78,7 +80,7 @@ void MainGameState::update() {
 
 void MainGameState::render(sf::RenderTarget& target) {
 
-map.render(target);
+	map.render(target);
 
 	if (substate == CHOOSING) {
 		target.draw(decisionShape1);
@@ -109,14 +111,19 @@ void MainGameState::handleEvent(const sf::Event& event) {
 
 
 void MainGameState::handleDecision(const Decision& decision) {
+	
+	substate = RUNNING;
+
 	decision.callback(game, &left);
 
 
 	
 
+	dangerLevel++;
+	generator.updateDangerLevel(dangerLevel);
 
 
 
-	substate = RUNNING;
 
+	
 }

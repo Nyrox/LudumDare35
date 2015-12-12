@@ -11,6 +11,10 @@ void Game::run() {
 	deltaClock.restart();
 
 	while (window.isOpen()) {
+		if (nextState != nullptr) {
+			activeState = nextState;
+			nextState = nullptr;
+		}
 
 		while (window.pollEvent(event)) {
 			if (event.type == sf::Event::Closed) {
