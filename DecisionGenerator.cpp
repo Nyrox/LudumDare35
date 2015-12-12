@@ -35,9 +35,9 @@ Decision DecisionGenerator::getDecision(int dangerLevel, Decision* filter) {
 			if (filter != nullptr) {
 				if (*filter == it)
 					continue;
-			} else
-				return it;
+			}
 
+			return it;
 		}
 	}
 
@@ -59,6 +59,6 @@ void DecisionGenerator::updateDangerLevel(int level) {
 		if (it->minDangerLevel == level) {
 			eligable.push_back(*it);
 			it = decisions.begin() + (std::distance(decisions.begin(), decisions.erase(it)) - 1);
-		}
+        }
 	}
 }

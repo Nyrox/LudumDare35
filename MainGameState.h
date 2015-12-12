@@ -14,12 +14,7 @@ public:
 	virtual void render(sf::RenderTarget& target) override;
 	virtual void update() override;
 
-
-
-
-
 	float decisionTimer = 0;
-
 
 	enum SubState {
 		RUNNING, CHOOSING
@@ -32,10 +27,13 @@ public:
 
 	Map map;
 
+	sf::RectangleShape decisionShape1;
+	sf::RectangleShape decisionShape2;
+
+	sf::Text decisionText1;
+	sf::Text decisionText2;
+
 private:
-
-
-
 
 
 };
