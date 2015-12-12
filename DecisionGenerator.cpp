@@ -42,9 +42,6 @@ Decision DecisionGenerator::getDecision(int dangerLevel, Decision* filter) {
 	}
 
 	throw "Nyrox is an idiot exception";
-
-
-
 }
 
 void DecisionGenerator::updateDangerLevel(int level) {
@@ -65,10 +62,7 @@ void DecisionGenerator::updateDangerLevel(int level) {
 	for (auto it = decisions.begin(); it != decisions.end(); it++) {
 		if (it->minDangerLevel == level) {
 			eligable.push_back(*it);
-			it = decisions.erase(it);
+			it = decisions.erase(it)--;
 		}
-
-		if (it == decisions.end())
-			break;
 	}
 }
