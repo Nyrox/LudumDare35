@@ -11,12 +11,12 @@ public:
 	DecisionGenerator();
 
 
-	void getDecision(int dangerLevel);
+	Decision getDecision(int dangerLevel, Decision* filter = nullptr);
 
 
+	void updateDangerLevel(int level);
 
-
-
+	std::vector<Decision> eligable;
 	std::vector<Decision> decisions;
 
 
