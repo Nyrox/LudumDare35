@@ -36,6 +36,7 @@ void Map::update(float dt) {
 
 
 	for (auto &it : leftUnits) {
+        it.shape.update(dt);
 		it.accumulator += dt;
 		if (it.accumulator * it.player->fireRateModifier >= 1 / Unit::baseFireRate) {
 			it.accumulator = 0;
@@ -55,6 +56,7 @@ void Map::update(float dt) {
 	}
 
 	for (auto it = rightUnits.begin(); it != rightUnits.end(); it++) {
+        it->shape.update(dt);
 		it->accumulator += dt;
 		if (it->accumulator * it->player->fireRateModifier >= 1 / Unit::baseFireRate) {
 			it->accumulator = 0;
