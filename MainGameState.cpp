@@ -43,7 +43,7 @@ void MainGameState::update() {
 
 
 
-		if (decisionTimer >= 2) {
+		if (decisionTimer >= 4) {
 			d1 = generator.getDecision(dangerLevel);
 			d2 = generator.getDecision(dangerLevel, &d1);
 
@@ -94,12 +94,11 @@ void MainGameState::handleEvent(const sf::Event& event) {
 
 
 	if (substate == CHOOSING) {
-		if (event.type == sf::Event::MouseButtonPressed) {
-			if (decisionShape1.getGlobalBounds().contains((sf::Vector2f) sf::Mouse::getPosition(game->window))) {
+		if (event.type == sf::Event::KeyPressed) {
+			if (event.key.code == sf::Keyboard::Left || event.key.code == sf::Keyboard::A) {
 				handleDecision(d1);
 			}
-			else if (
-				decisionShape2.getGlobalBounds().contains((sf::Vector2f) sf::Mouse::getPosition(game->window))) {
+			else if (event.key.code == sf::Keyboard::Right || event.key.code == sf::Keyboard::D) {
 				handleDecision(d2);
 			}
 		}
