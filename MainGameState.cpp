@@ -5,7 +5,7 @@
 #include <iostream>
 
 
-MainGameState::MainGameState(Game* t_game) : State(t_game), map({500, 500}, 600), generator(game) {
+MainGameState::MainGameState(Game* t_game) : State(t_game), map({500, 500}, 600, t_game), generator(game) {
 
 	decisionShape1.setSize({ game->window.getSize().x / 2 - 268.0f / 2, 242.0f });
 	decisionShape2.setSize({ game->window.getSize().x / 2 - 268.0f / 2, 242.0f });
@@ -15,6 +15,7 @@ MainGameState::MainGameState(Game* t_game) : State(t_game), map({500, 500}, 600)
 
 //	game->textures.acquire("Infantry", thor::Resources::fromFile<sf::Texture>("assets/Infantry.png"));
 	game->textures.acquire("Infantry", thor::Resources::fromFile<sf::Texture>("assets/animation.png"));
+	game->textures.acquire("Die", thor::Resources::fromFile<sf::Texture>("assets/die.png"));
 
 	map.spawnUnit(Unit(game, &left), Map::LEFT);
 	map.spawnUnit(Unit(game, &right), Map::RIGHT);
