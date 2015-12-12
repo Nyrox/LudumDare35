@@ -5,7 +5,7 @@
 #include <iostream>
 
 
-MainGameState::MainGameState(Game* t_game) : State(t_game) {
+MainGameState::MainGameState(Game* t_game) : State(t_game), map({500, 500}, 600) {
 
 
 	decisionShape1.setSize({ game->window.getSize().x / 2 - 140.0f / 2, 296.0f });
