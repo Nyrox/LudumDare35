@@ -62,7 +62,8 @@ void DecisionGenerator::updateDangerLevel(int level) {
 	for (auto it = decisions.begin(); it != decisions.end(); it++) {
 		if (it->minDangerLevel == level) {
 			eligable.push_back(*it);
-			it = decisions.erase(it)--;
+			it = decisions.erase(it);
+			it--;
 		}
 	}
 }
