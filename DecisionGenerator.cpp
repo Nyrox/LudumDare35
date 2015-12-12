@@ -1,15 +1,16 @@
 #include "DecisionGenerator.h"
 
 
+#include "Game.h"
 
-DecisionGenerator::DecisionGenerator() {
+DecisionGenerator::DecisionGenerator(Game* game) : game(game) {
 
 	decisions.emplace_back(
-			"Advance the front!", 0, 20, 2, nullptr
+			"Advance the front!", 0, 20, 2, &game->textures.acquire("AdvanceTheFront", thor::ResourceLoader<sf::Texture>(thor::Resources::fromFile<sf::Texture>("assets/AdvanceTheFront.png")))
 		);
 
 	decisions.emplace_back(
-			"Stay defensive!", 0, 10, 2, nullptr
+			"Stay defensive!", 0, 10, 2, &game->textures.acquire("HoldTheLine", thor::ResourceLoader<sf::Texture>(thor::Resources::fromFile<sf::Texture>("assets/HoldTheLine.png")))
 		);
 
 
