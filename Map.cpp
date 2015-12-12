@@ -17,18 +17,40 @@ Map::~Map()
 void Map::update(float dt)
 {
     for(Unit& unit : leftUnits)
-        unit.advancement += unit.speed*dt;
+    {
+        if(unit.moving)
+            unit.advancement += unit.speed*dt;
+        else
+            rightUnits.front().life -= rightUnits.front().damage*dt;
+    }
 
     for(Unit& unit : rightUnits)
-        unit.advancement += unit.speed*dt;
+    {
+        if(unit.moving)
+            unit.advancement += unit.speed*dt;
+        else
+            leftUnits.front().life -= leftUnits.front().damage*dt;
+    }
 
     std::sort(leftUnits.begin(), leftUnits.end(), [](const Unit& first, const Unit& second){return first.advancement > second.advancement;});
     std::sort(rightUnits.begin(), rightUnits.end(), [](const Unit& first, const Unit& second){return first.advancement > second.advancement;});
 
-    if(leftUnits.front().advancement+rightUnits.front().advancement >= 1.f)
+    for(Unit& unit : leftUnits)
+        unit.moving = ((unit.advancement+rightUnits.front().advancement+unit.range) <= 1.f);
+
+    for(Unit& unit : rightUnits)
+        unit.moving = ((unit.advancement+leftUnits.front().advancement+unit.range) <= 1.f);
+
+    for(auto it = leftUnits.begin(); it != leftUnits.end(); it++)
     {
-        leftUnits.erase(leftUnits.begin());
-        rightUnits.erase(rightUnits.begin());
+        if(it->life <= 0)
+            it = leftUnits.begin() + (std::distance(leftUnits.begin(), leftUnits.erase(it)) - 1);
+    }
+
+    for(auto it = rightUnits.begin(); it != rightUnits.end(); it++)
+    {
+        if(it->life <= 0)
+            it = rightUnits.begin() + (std::distance(rightUnits.begin(), rightUnits.erase(it)) - 1);
     }
 
     leftUnitSpawnTime += dt;

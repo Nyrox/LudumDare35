@@ -14,6 +14,10 @@ class Unit
     float advancement = 0;
     float speed = 0.1f;
     int life = 100;
+    int damage = life/3;
+    float range = 0.5;
+
+    bool moving = true;
 };
 
 #endif // UNIT_H
