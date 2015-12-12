@@ -50,10 +50,7 @@ void DecisionGenerator::updateDangerLevel(int level) {
 	for (auto it = eligable.begin(); it != eligable.end(); it++) {
 		if (it->maxDangerLevel > level) {
 			it = eligable.erase(it);
-		}
-
-		if (it == eligable.end()) {
-			break;
+			it--;
 		}
 	}
 
