@@ -56,8 +56,8 @@ void MainGameState::render(sf::RenderTarget& target) {
 map.render(target);
 
 	if (substate == CHOOSING) {
-		target.draw(decisionShape1);
-		target.draw(decisionShape2);
+//		target.draw(decisionShape1);
+//		target.draw(decisionShape2);
 		target.draw(decisionText1);
 		target.draw(decisionText2);
 	}

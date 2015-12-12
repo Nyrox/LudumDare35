@@ -21,7 +21,7 @@ void Map::update(float dt)
         if(unit.moving)
             unit.advancement += unit.speed*dt;
         else
-            rightUnits.front().life -= rightUnits.front().damage*dt;
+            rightUnits.front().life = std::max(0.f, rightUnits.front().life-unit.damage*dt);
     }
 
     for(Unit& unit : rightUnits)
@@ -29,7 +29,7 @@ void Map::update(float dt)
         if(unit.moving)
             unit.advancement += unit.speed*dt;
         else
-            leftUnits.front().life -= leftUnits.front().damage*dt;
+            leftUnits.front().life = std::max(0.f, leftUnits.front().life-unit.damage*dt);
     }
 
     std::sort(leftUnits.begin(), leftUnits.end(), [](const Unit& first, const Unit& second){return first.advancement > second.advancement;});
