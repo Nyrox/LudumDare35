@@ -4,9 +4,10 @@
 #include "MathHelper.h"
 
 #include "DecisionGenerator.h"
+#include "Map.h"
 
 class MainGameState : public State {
-public: 
+public:
 	MainGameState(Game* game);
 
 	virtual void handleEvent(const sf::Event& event) override;
@@ -28,6 +29,8 @@ public:
 	Decision d1, d2;
 
 	int dangerLevel = 0;
+
+	Map map;
 
 private:
 

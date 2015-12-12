@@ -17,11 +17,12 @@ void MainGameState::update() {
 
 
 		if (decisionTimer >= 2) {
-			d1 = generator.getDecision(dangerLevel);
-			d2 = generator.getDecision(dangerLevel, &d1);
-		
-			
-			std::cout << d1.message << " VS " << d2.message << std::endl;
+
+//			d1 = generator.getDecision(dangerLevel);
+//			d2 = generator.getDecision(dangerLevel, &d1);
+
+
+//			std::cout << d1.message << " VS " << d2.message << std::endl;
 			substate = CHOOSING;
 		}
 
@@ -34,15 +35,13 @@ void MainGameState::update() {
 
 	}
 
-
-
 	game->debug.log("Info", std::to_string(game->deltaTime));
-
+	map.update(game->deltaTime);
 }
 
 void MainGameState::render(sf::RenderTarget& target) {
 
-
+map.render(target);
 
 }
 
