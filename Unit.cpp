@@ -32,6 +32,7 @@ void Unit::render(sf::RenderTarget& target)
 {
 	sf::RenderStates states;
 	states.transform = getTransform();
+	states.transform.translate(-shape.getPosition());
 
 	target.draw(shape, states);
 }

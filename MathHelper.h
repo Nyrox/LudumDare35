@@ -156,6 +156,11 @@ template<typename T> T lerp(T value1, T value2, float interpolation)
     return (value1 * (1.0f - interpolation)) + (value2 * interpolation);
 };
 
+template<typename T> sf::Vector2<T> lerp(sf::Vector2<T> value1, sf::Vector2<T> value2, float interpolation)
+{
+    return {lerp(value1.x,value2.x,interpolation), lerp(value1.y,value2.y,interpolation)};
+};
+
 template<typename T> T perpandicular(T vector)
 {
     return T(-vector.y, vector.x);
