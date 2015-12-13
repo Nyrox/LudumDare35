@@ -60,12 +60,7 @@ void Map::update(float dt)
                 continue;
 
             rightUnits.at(result).life -= Unit::baseDamage * it.player->damageModifier;
-            if (rightUnits.at(result).life <= 0)
-            {
-                rightUnits.at(result).flaggedToDie = true;
-
-            }
-
+            rightUnits.at(result).flaggedToDie = rightUnits.at(result).life <= 0;
         }
     }
 
@@ -83,10 +78,7 @@ void Map::update(float dt)
                 continue;
 
             leftUnits.at(result).life -= Unit::baseDamage * it->player->damageModifier;
-            if (leftUnits.at(result).life <= 0)
-            {
-                leftUnits.at(result).flaggedToDie = true;
-            }
+            leftUnits.at(result).flaggedToDie = leftUnits.at(result).life <= 0;
         }
 
         if (it->flaggedToDie == true)
@@ -126,7 +118,7 @@ void Map::update(float dt)
             anim.setCurrentFrame(0);
 //            anim.setPosition(it->getPosition());
             anim.setPosition({500, 500});
-            anim.setScale(it->getScale());
+//            anim.setScale(it->getScale());
             corpse.push_back(anim);
 
             it = leftUnits.erase(it);

@@ -2,7 +2,7 @@
 #include "State.h"
 
 #include <memory>
-#include <SFML\Graphics.hpp>
+#include <SFML/Graphics.hpp>
 
 
 constexpr float endCutsceneLength = 10;
