@@ -6,11 +6,16 @@
 
 MainGameState::MainGameState(Game* t_game) : State(t_game), map({500, 500}, 600, t_game), generator(game) {
 
-	decisionShape1.setSize({ 512 - 96, 242.0f - 32 });
-	decisionShape2.setSize({ 512 - 96, 242.0f - 32 });
+//	decisionShape1.setSize({ 512 - 96, 242.0f - 32 });
+//	decisionShape2.setSize({ 512 - 96, 242.0f - 32 });
 
-	decisionShape1.setPosition({ 80, game->window.getSize().y / 2 - decisionShape1.getSize().y / 2 });
-	decisionShape2.setPosition({ game->window.getSize().x - decisionShape2.getSize().x - 80, game->window.getSize().y / 2 - decisionShape2.getSize().y / 2 });
+    sf::Vector2f windowSize = (sf::Vector2f)game->window.getSize();
+
+    decisionShape1.setSize({(312.f/1024.f)*windowSize.x,(100.f/580.f)*windowSize.y});
+    decisionShape2.setSize(decisionShape1.getSize());
+
+	decisionShape1.setPosition({ 20, windowSize.y - decisionShape1.getSize().y - 20});
+	decisionShape2.setPosition({ windowSize.x - decisionShape2.getSize().x - 20, windowSize.y - decisionShape1.getSize().y - 20});
 
 	decisionText1.setCharacterSize(12);
 	decisionText2.setCharacterSize(12);
@@ -30,7 +35,11 @@ MainGameState::MainGameState(Game* t_game) : State(t_game), map({500, 500}, 600,
 	killCountRight.setFont(*font);
 
 	killCountLeft.setPosition({20, 20});
-	killCountRight.setPosition({20, game->window.getSize().x - 20 - getSize(killCountRight).x});
+	killCountRight.setPosition({20, windowSize.x - 20 - getSize(killCountRight).x});
+
+	frame.setPosition(0, 0);
+	frame.setSize((sf::Vector2f)game->window.getSize());
+	frame.setTexture(&game->textures.acquire("frame", thor::Resources::fromFile<sf::Texture>("assets/frame.png")));
 
 	game->textures.acquire("Infantry", thor::Resources::fromFile<sf::Texture>("assets/all-new.png"));
 	game->textures.acquire("bullet", thor::Resources::fromFile<sf::Texture>("assets/bullet.png"));
@@ -87,7 +96,6 @@ void MainGameState::update() {
 
     killCountLeft.setString(std::to_string(left.deadCount));
     killCountRight.setString(std::to_string(right.deadCount));
-//    killCountRight.setPosition({game->window.getSize().x - 20 - getSize(killCountRight).x, 20});
     killCountRight.setPosition({game->window.getSize().x - 20 - getSize(killCountRight).x, 20});
 
 	game->debug.log("Info", std::to_string(game->deltaTime));
@@ -95,7 +103,10 @@ void MainGameState::update() {
 }
 
 void MainGameState::render(sf::RenderTarget& target) {
+
 	map.render(target);
+
+    target.draw(frame);
 
 	if (substate == CHOOSING) {
 		target.draw(decisionShape1);
