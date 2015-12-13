@@ -6,7 +6,7 @@
 
 
 constexpr float endCutsceneLength = 10;
-
+constexpr float gameOverFadeInTime = 5;
 
 class EndGameState : public State {
 public:
@@ -22,9 +22,10 @@ public:
 	sf::RectangleShape screenshotShape;
 	sf::RectangleShape blendShape;
 
+	sf::RectangleShape gameOverShape;
 
 
 	float passedTime = 0;
-
+	float passedTime2 = 0;
 
 };
