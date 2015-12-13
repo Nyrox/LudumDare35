@@ -130,7 +130,7 @@ void Map::update(float dt)
     for (auto it = corpse.begin(); it != corpse.end(); it++)
     {
         it->update(dt);
-        if(it->currentFrame == it->endFrame)
+        if(it->currentFrame >= it->endFrame)
             it = corpse.erase(it) - 1;
     }
 
