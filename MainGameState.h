@@ -39,7 +39,6 @@ public:
 	Map map;
 
 	sf::RectangleShape frame;
-	sf::RectangleShape background;
 
 	sf::RectangleShape decisionShape1;
 	sf::RectangleShape decisionShape2;

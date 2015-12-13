@@ -5,7 +5,9 @@
 
 Map::Map(sf::Vector2f position, float length, Game* game) : game(game)
 {
-
+    background.setSize((sf::Vector2f)game->window.getSize() - sf::Vector2f(0, 20));
+    background.setPosition(0, 0);
+    background.setTexture(&game->textures.acquire("background", thor::Resources::fromFile<sf::Texture>("assets/Background.png")));
 }
 
 Map::~Map()
@@ -50,7 +52,7 @@ void Map::addShootLine(sf::Vector2f start, sf::Vector2f end)
 {
     Animation anim;
     anim.setTexture(&game->textures["bullet"]);
-    anim.setFillColor(sf::Color{255, 255, 255, 255 / 3 });
+    anim.setFillColor(sf::Color {255, 255, 255, 255 / 3 });
     anim.setSize({math::getDistance(start, end), 5.f});
     anim.setOrigin({0.f, anim.getSize().y});
     anim.setPosition(start);
@@ -143,7 +145,7 @@ void Map::update(float dt)
             it = corpse.erase(it);
 
             if(it == corpse.end());
-                break;
+            break;
         }
     }
 
@@ -161,6 +163,8 @@ void Map::render(sf::RenderTarget& target)
 
     view.setSize(view.getSize() / zoom);
     target.setView(view);
+
+    target.draw(background);
 
     for (Unit& unit : leftUnits)
         unit.render(target);

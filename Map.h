@@ -41,6 +41,8 @@ public:
 
     Game* game;
 
+    sf::RectangleShape background;
+
 };
 
 #endif // MAP_H
