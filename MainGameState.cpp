@@ -29,6 +29,9 @@ MainGameState::MainGameState(Game* t_game) : State(t_game), map({500, 500}, 600,
 	killCountLeft.setFont(*font);
 	killCountRight.setFont(*font);
 
+	killCountLeft.setPosition({20, 20});
+	killCountRight.setPosition({20, game->window.getSize().x - 20 - getSize(killCountRight).x});
+
 	game->textures.acquire("Infantry", thor::Resources::fromFile<sf::Texture>("assets/all-new.png"));
 	game->textures.acquire("bullet", thor::Resources::fromFile<sf::Texture>("assets/bullet.png"));
 //	game->textures.acquire("Infantry", thor::Resources::fromFile<sf::Texture>("assets/animation.png"));
@@ -82,6 +85,11 @@ void MainGameState::update() {
 
 	}
 
+    killCountLeft.setString(std::to_string(left.deadCount));
+    killCountRight.setString(std::to_string(right.deadCount));
+//    killCountRight.setPosition({game->window.getSize().x - 20 - getSize(killCountRight).x, 20});
+    killCountRight.setPosition({game->window.getSize().x - 20 - getSize(killCountRight).x, 20});
+
 	game->debug.log("Info", std::to_string(game->deltaTime));
 	map.update(game->deltaTime);
 }
@@ -95,6 +103,9 @@ void MainGameState::render(sf::RenderTarget& target) {
 		target.draw(decisionText1);
 		target.draw(decisionText2);
 	}
+
+    target.draw(killCountLeft);
+    target.draw(killCountRight);
 }
 
 void MainGameState::handleEvent(const sf::Event& event) {

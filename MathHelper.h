@@ -202,6 +202,14 @@ sf::Vector2<T> operator*(sf::Vector2<T> left, sf::Vector2<T> right)
     return {left.x*right.x, left.y*right.y};
 }
 
+inline
+sf::Vector2f getSize(sf::Text& text) //lazyness will one day kill me
+{
+    sf::FloatRect rect = text.getLocalBounds();
+    return {rect.left + rect.width, rect.top + rect.height};
+}
+
+
 template<typename T>
 void setTextSize(sf::Text& text, sf::Vector2<T> size, sf::Vector2<T> margin)
 {
