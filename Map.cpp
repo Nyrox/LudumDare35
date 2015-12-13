@@ -1,6 +1,8 @@
 #include "Map.h"
 #include "Game.h"
 
+#include "MathHelper.h"
+
 Map::Map(sf::Vector2f position, float length, Game* game) : game(game)
 {
 
@@ -41,6 +43,25 @@ void Map::spawnUnit(Unit unit, Sides side)
 
 }
 
+void Map::addShootLine(sf::Vector2f start, sf::Vector2f end, Game* game)
+{
+    Animation anim;
+    anim.setTexture(&game->textures["bullet"]);
+    anim.setFillColor({255, 255, 255, 255.f/3.f});
+    anim.setSize({math::getDistance(start, end), 5.f});
+    anim.setOrigin({0.f, anim.getSize().y});
+    anim.setPosition(start);
+    anim.setRotation(math::vectorToAngle(start - end)+ 90);
+    anim.fps = 30;
+    anim.frameSize = {100, 1};
+    anim.frameGrid = {1, 10};
+    anim.startFrame = 0;
+    anim.endFrame = 9;
+    anim.setCurrentFrame(0);
+    anim.loop = false;
+    corpse.push_back(anim);
+}
+
 void Map::updateUnits(Sides side, float dt)
 {
     std::vector<Unit>& units = (side == LEFT ? leftUnits : rightUnits);
@@ -67,6 +88,8 @@ void Map::updateUnits(Sides side, float dt)
 
             enemys.at(result).life -= Unit::baseDamage * it.player->damageModifier;
             enemys.at(result).flaggedToDie = enemys.at(result).life <= 0;
+
+            addShootLine(it.getPosition(), enemys.at(result).getPosition(), game);
         }
         else if(it.shape.loop == false && it.shape.currentFrame == it.shape.endFrame)
             it.resetAnimation();
@@ -87,6 +110,7 @@ void Map::removeDeadUnits(Sides side)
             it->shape.setCurrentFrame(it->shape.startFrame);
             it->shape.setPosition(it->getPosition());
             it->shape.setScale(it->getScale());
+            it->shape.loop = false;
             corpse.push_back(it->shape);
 
             it = units.erase(it);

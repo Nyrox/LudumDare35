@@ -4,7 +4,6 @@
 
 #include <iostream>
 
-
 MainGameState::MainGameState(Game* t_game) : State(t_game), map({500, 500}, 600, t_game), generator(game) {
 
 	decisionShape1.setSize({ 512 - 96, 242.0f - 32 });
@@ -25,6 +24,7 @@ MainGameState::MainGameState(Game* t_game) : State(t_game), map({500, 500}, 600,
 	decisionText2.setFont(*font);
 
 	game->textures.acquire("Infantry", thor::Resources::fromFile<sf::Texture>("assets/all.png"));
+	game->textures.acquire("bullet", thor::Resources::fromFile<sf::Texture>("assets/bullet.png"));
 //	game->textures.acquire("Infantry", thor::Resources::fromFile<sf::Texture>("assets/animation.png"));
 //	game->textures.acquire("Die", thor::Resources::fromFile<sf::Texture>("assets/die.png"));
 

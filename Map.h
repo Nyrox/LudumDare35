@@ -18,6 +18,8 @@ public:
 	Map(sf::Vector2f position, float length, Game* game);
 	virtual ~Map();
 
+	void addShootLine(sf::Vector2f start, sf::Vector2f end, Game* game);
+
 	enum Sides { LEFT, RIGHT };
 	void spawnUnit(Unit unit, Sides side);
 
