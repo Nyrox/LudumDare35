@@ -138,6 +138,8 @@ void MainGameState::setDangerLevel(int danger)
 {
     dangerLevel = std::max(danger, dangerLevel); //dangerLevel can never decrease
     nextDangerLevelUnitCount = pow(10, dangerLevel);
+
+    map.targetZoom = 3 - dangerLevel;
 }
 
 void MainGameState::render(sf::RenderTarget& target)
@@ -182,12 +184,11 @@ void MainGameState::handleEvent(const sf::Event& event)
 
 void MainGameState::handleDecision(Decision* decision)
 {
-
     substate = RUNNING;
 
     decision->callback(game, &left);
     decision->callback(game, &right);
 
-    dangerLevel++;
+//    dangerLevel++;
     generator.updateDangerLevel(dangerLevel);
 }

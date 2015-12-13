@@ -20,17 +20,17 @@ public:
 
 	void render(sf::RenderTarget& target);
 
+	sf::Vector2f targetPos = {0, 0};
+
 	Player* player; // Used to get global modifiers
 
 	int life = baseLife;
 	float accumulator = 0; // Stores the time since the last time the Unit fired
 
-
 	const static int baseLife = 100;
 	const static int baseDamage = 40;
 
 	const static float baseFireRate; // 0.5f
-
 
 	bool flaggedToDie = false;
 };

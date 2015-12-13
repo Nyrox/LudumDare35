@@ -21,7 +21,7 @@ public:
 	void handleDecision(Decision* decision);
 
 	float decisionTimer = 0;
-	float decisionDelay = 10;
+	float decisionDelay = 3;
 
 	enum SubState {
 		RUNNING, CHOOSING

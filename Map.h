@@ -35,7 +35,8 @@ public:
 	float rightUnitRate = 5.f;
 	float leftUnitRate = 5.f;
 
-	float zoom = 2;
+	float zoom = -1.f;
+	float targetZoom = zoom;
 
     std::vector<Animation> corpse;
 

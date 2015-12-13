@@ -25,19 +25,22 @@ void Map::spawnUnit(Unit unit, Sides side)
 
     // Map a random factor onto the lines
     float result = math::rand(1.0);
+    float result2 = math::rand(1.0);
 
-    sf::Vector2f start = side == LEFT ? left_line_start : right_line_start;
-    sf::Vector2f end = side == LEFT ? left_line_end : right_line_end;
+    sf::Vector2f start = (side == LEFT ? left_line_start : right_line_start);
+    sf::Vector2f end = (side == LEFT ? left_line_end : right_line_end);
 
-    sf::Vector2f diff = end - start;
+    sf::Vector2f diff = (end - start) * result2;
 
     sf::Vector2f position = start + diff * result;
 
-    ref.shape.setPosition(position);
+    ref.targetPos = position;
+
     if (side == RIGHT)
         ref.setScale(-1, 1);
 
-    ref.setPosition({side == RIGHT ? game->window.getSize().x : -ref.shape.getSize().x, game->window.getSize().y/2.f});
+//    ref.setPosition({side == RIGHT ? game->window.getSize().x : -ref.shape.getSize().x, game->window.getSize().y/2.f});
+    ref.setPosition({side == RIGHT ? game->window.getSize().x : -ref.shape.getSize().x, position.y});
 
     ref.scale(4 - result, 4 - result);
 
@@ -76,13 +79,14 @@ void Map::updateUnits(Sides side, float dt)
     {
         it.shape.update(dt);
         it.accumulator += dt;
-        if(it.shape.getPosition() != sf::Vector2f())
+        if(it.targetPos != sf::Vector2f())
         {
-            it.setPosition(math::lerp(it.getPosition(), it.shape.getPosition(), dt*4.0f));
-            if(abs(math::length(it.getPosition() - it.shape.getPosition()) < 1))
-                it.setPosition(it.getPosition()), it.shape.setPosition(sf::Vector2f());
+            it.setPosition(math::lerp(it.getPosition(), it.targetPos, dt*4.0f));
+            if(abs(math::length(it.getPosition() - it.targetPos) < 1))
+                it.setPosition(it.targetPos), (it.targetPos = sf::Vector2f());
         }
-        else if(it.accumulator * it.player->fireRateModifier >= 1 / Unit::baseFireRate)
+
+        if(it.accumulator * it.player->fireRateModifier >= 1 / Unit::baseFireRate)
         {
             if(enemys.empty())
                 continue;
@@ -154,6 +158,8 @@ void Map::update(float dt)
 
     removeDeadUnits(LEFT);
     removeDeadUnits(RIGHT);
+
+    zoom = math::lerp(zoom, targetZoom, 2.f*dt);
 }
 
 void Map::render(sf::RenderTarget& target)
