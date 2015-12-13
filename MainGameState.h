@@ -19,15 +19,15 @@ public:
 	void handleDecision(Decision* decision);
 
 	float decisionTimer = 0;
-	float decisionDelay = 10;
+	float decisionDelay = 4;
 
 	enum SubState {
 		RUNNING, CHOOSING
 	} substate = RUNNING;
 
 	DecisionGenerator generator;
-	Decision* d1;
-	Decision* d2;
+	Decision d1;
+	Decision d2;
 
 	int dangerLevel = 0;
 

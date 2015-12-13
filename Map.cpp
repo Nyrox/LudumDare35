@@ -45,6 +45,7 @@ void Map::spawnUnit(Unit unit, Sides side)
 
 void Map::addShootLine(sf::Vector2f start, sf::Vector2f end, Game* game)
 {
+	/*
     Animation anim;
     anim.setTexture(&game->textures["bullet"]);
     anim.setFillColor(sf::Color{255, 255, 255, 255 / 3 });
@@ -60,7 +61,8 @@ void Map::addShootLine(sf::Vector2f start, sf::Vector2f end, Game* game)
     anim.setCurrentFrame(0);
     anim.loop = false;
     corpse.push_back(anim);
-}
+	*/
+	}
 
 void Map::updateUnits(Sides side, float dt)
 {

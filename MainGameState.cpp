@@ -50,7 +50,7 @@ MainGameState::MainGameState(Game* t_game) : State(t_game), map({500, 500}, 600,
 	map.spawnUnit(Unit(game, &right), Map::RIGHT);
 
 
-//	dangerLevel = 20;
+	dangerLevel = 20;
 }
 
 void MainGameState::update() {
@@ -72,13 +72,13 @@ void MainGameState::update() {
 
 		if (decisionTimer >= decisionDelay) {
 			d1 = generator.getDecision(dangerLevel);
-			d2 = generator.getDecision(dangerLevel, d1);
+			d2 = generator.getDecision(dangerLevel, &d1);
 
-			decisionShape1.setTexture(d1->image);
-			decisionShape2.setTexture(d2->image);
+			decisionShape1.setTexture(d1.image);
+			decisionShape2.setTexture(d2.image);
 
-			decisionText1.setString(d1->message);
-			decisionText2.setString(d2->message);
+			decisionText1.setString(d1.message);
+			decisionText2.setString(d2.message);
 
 			setTextSize(decisionText1, decisionShape1.getSize(), {10,50});
 			setTextSize(decisionText2, decisionShape2.getSize(), {10,50});
@@ -125,10 +125,10 @@ void MainGameState::handleEvent(const sf::Event& event) {
 	if (substate == CHOOSING) {
 		if (event.type == sf::Event::KeyPressed) {
 			if (event.key.code == sf::Keyboard::Left || event.key.code == sf::Keyboard::A) {
-				handleDecision(d1);
+				handleDecision(&d1);
 			}
 			else if (event.key.code == sf::Keyboard::Right || event.key.code == sf::Keyboard::D) {
-				handleDecision(d2);
+				handleDecision(&d2);
 			}
 		}
 	}
