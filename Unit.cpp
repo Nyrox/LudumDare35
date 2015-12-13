@@ -21,6 +21,7 @@ void Unit::resetAnimation()
 	shape.frameSize = {64, 64};
 	shape.frameGrid = {4, 4};
 	shape.setCurrentFrame(shape.startFrame);
+	shape.loop = true;
 }
 
 Unit::~Unit()
