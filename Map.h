@@ -29,12 +29,13 @@ public:
 	void update(float dt);
 	void render(sf::RenderTarget& target);
 
-
 	std::vector<Unit> leftUnits;
 	std::vector<Unit> rightUnits;
 
 	float rightUnitRate = 5.f;
 	float leftUnitRate = 5.f;
+
+	float zoom = 2;
 
     std::vector<Animation> corpse;
 

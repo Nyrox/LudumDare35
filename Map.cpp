@@ -156,6 +156,12 @@ void Map::update(float dt)
 
 void Map::render(sf::RenderTarget& target)
 {
+    sf::View resetView = target.getView();
+    sf::View view = resetView;
+
+    view.setSize(view.getSize() / zoom);
+    target.setView(view);
+
     for (Unit& unit : leftUnits)
         unit.render(target);
 
@@ -164,4 +170,6 @@ void Map::render(sf::RenderTarget& target)
 
     for (Animation& anim : corpse)
         target.draw(anim);
+
+    target.setView(resetView);
 }

@@ -41,7 +41,7 @@ MainGameState::MainGameState(Game* t_game) : State(t_game), map({500, 500}, 600,
     frame.setPosition(0, 0);
     background.setPosition(0, 0);
     frame.setSize((sf::Vector2f)game->window.getSize());
-    background.setSize((sf::Vector2f)game->window.getSize());
+    background.setSize((sf::Vector2f)game->window.getSize() - sf::Vector2f(0, 20));
     frame.setTexture(&game->textures.acquire("frame", thor::Resources::fromFile<sf::Texture>("assets/frame.png")));
     background.setTexture(&game->textures.acquire("background", thor::Resources::fromFile<sf::Texture>("assets/Background.png")));
 
@@ -57,7 +57,19 @@ MainGameState::MainGameState(Game* t_game) : State(t_game), map({500, 500}, 600,
     map.spawnUnit(Unit(game, &right), Map::RIGHT);
 
 
+    setDangerLevel(1);
 //	dangerLevel = 20;
+}
+
+
+void MainGameState::updatePlayer(Player& player)
+{
+    player.accumulator += game->deltaTime;
+    while (player.accumulator >= 1.f / (Player::baseSpawnRate * player.spawnRateModifier * player.balancingSpawnRateModifier))
+    {
+        player.accumulator -= 1.f / (Player::baseSpawnRate * player.spawnRateModifier * player.balancingSpawnRateModifier);
+        map.spawnUnit(Unit(game, &player), player.side);
+    }
 }
 
 void MainGameState::update()
@@ -93,19 +105,8 @@ void MainGameState::update()
 
     }
 
-    left.accumulator += game->deltaTime;
-    while (left.accumulator >= 1.f / (Player::baseSpawnRate *left.spawnRateModifier))
-    {
-        left.accumulator -= 1.f / (Player::baseSpawnRate * left.spawnRateModifier);
-        map.spawnUnit(Unit(game, &left), Map::LEFT);
-    }
-
-    right.accumulator += game->deltaTime;
-    while (right.accumulator >= 1.f / (Player::baseSpawnRate * right.spawnRateModifier))
-    {
-        right.accumulator -= 1.f / (Player::baseSpawnRate * right.spawnRateModifier);
-        map.spawnUnit(Unit(game, &right), Map::RIGHT);
-    }
+    updatePlayer(left);
+    updatePlayer(right);
 
     killCountLeft.setString(std::to_string(left.deadCount));
     killCountRight.setString(std::to_string(right.deadCount));
@@ -127,9 +128,19 @@ void MainGameState::update()
 //        if(smallerCount == 0)
 //            smaller.spawnRateModifier += bigger.spawnRateModifier * 2;
 
-        smaller.spawnRateModifier = 10.f;
-        bigger.spawnRateModifier = 1;
+        smaller.balancingSpawnRateModifier = 5.f;
+        bigger.balancingSpawnRateModifier = 1;
     }
+
+    int totalUnitCount = map.leftUnits.size() + map.rightUnits.size();
+    if(totalUnitCount >= nextDangerLevelUnitCount)
+        setDangerLevel(dangerLevel + 1);
+}
+
+void MainGameState::setDangerLevel(int danger)
+{
+    dangerLevel = std::max(danger, dangerLevel); //dangerLevel can never decrease
+    nextDangerLevelUnitCount = pow(10, dangerLevel);
 }
 
 void MainGameState::render(sf::RenderTarget& target)

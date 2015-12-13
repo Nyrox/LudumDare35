@@ -16,6 +16,8 @@ public:
 	virtual void render(sf::RenderTarget& target) override;
 	virtual void update() override;
 
+	virtual void updatePlayer(Player& player);
+
 	void handleDecision(Decision* decision);
 
 	float decisionTimer = 0;
@@ -29,6 +31,9 @@ public:
 	Decision* d1;
 	Decision* d2;
 
+	void setDangerLevel(int danger);
+
+	int nextDangerLevelUnitCount = 0;
 	int dangerLevel = 0;
 
 	Map map;
