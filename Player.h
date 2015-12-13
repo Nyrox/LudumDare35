@@ -7,6 +7,7 @@
 class Player {
 public:
 
+    int deadCount = 0;
 
 	float fireRateModifier = 1.0f;
 	float damageModifier = 1.0f;

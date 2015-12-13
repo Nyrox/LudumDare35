@@ -39,6 +39,8 @@ public:
 	sf::Text decisionText1;
 	sf::Text decisionText2;
 
+	sf::Text killCountLeft;
+	sf::Text killCountRight;
 
 	Player left;
 	Player right;

@@ -15,13 +15,19 @@ MainGameState::MainGameState(Game* t_game) : State(t_game), map({500, 500}, 600,
 	decisionText1.setCharacterSize(12);
 	decisionText2.setCharacterSize(12);
 
-	decisionText1.setPosition(decisionShape1.getPosition() + sf::Vector2f { 12, 12 });
-	decisionText2.setPosition(decisionShape2.getPosition() + sf::Vector2f { 12, 12 });
+	decisionText1.setPosition(decisionShape1.getPosition() + decisionShape1.getSize()/2.f);
+	decisionText2.setPosition(decisionShape2.getPosition() + decisionShape2.getSize()/2.f);
 
 	sf::Font* font = &game->fonts.acquire("font", thor::ResourceLoader<sf::Font>(thor::Resources::fromFile<sf::Font>("assets/font.ttf")));
 
 	decisionText1.setFont(*font);
 	decisionText2.setFont(*font);
+
+	killCountLeft.setCharacterSize(24);
+	killCountRight.setCharacterSize(killCountLeft.getCharacterSize());
+
+	killCountLeft.setFont(*font);
+	killCountRight.setFont(*font);
 
 	game->textures.acquire("Infantry", thor::Resources::fromFile<sf::Texture>("assets/all-new.png"));
 	game->textures.acquire("bullet", thor::Resources::fromFile<sf::Texture>("assets/bullet.png"));
@@ -61,6 +67,9 @@ void MainGameState::update() {
 
 			decisionText1.setString(d1->message);
 			decisionText2.setString(d2->message);
+
+			setTextSize(decisionText1, decisionShape1.getSize(), {10,50});
+			setTextSize(decisionText2, decisionShape2.getSize(), {10,50});
 
 			substate = CHOOSING;
 			decisionTimer = 0;

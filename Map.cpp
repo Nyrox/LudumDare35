@@ -114,6 +114,8 @@ void Map::removeDeadUnits(Sides side)
             it->shape.loop = false;
             corpse.push_back(it->shape);
 
+            it->player->deadCount++;
+
             it = units.erase(it);
         }
 
