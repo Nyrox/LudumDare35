@@ -15,8 +15,9 @@ Map::~Map()
 
 void Map::spawnUnit(Unit unit, Sides side)
 {
-    Unit& ref = (side == LEFT ? leftUnits : rightUnits).back();
-    (side == LEFT ? leftUnits : rightUnits).push_back(unit);
+    std::vector<Unit>& vec = (side == LEFT ? leftUnits : rightUnits);
+    vec.push_back(unit);
+    Unit& ref = vec.back();
 
     // Map a random factor onto the lines
     float result = math::rand(1.0);
@@ -33,7 +34,7 @@ void Map::spawnUnit(Unit unit, Sides side)
 
     ref.scale(4 - result, 4 - result);
 
-    std::sort(ref.begin(), ref.end(), [](Unit& left, Unit& right)
+    std::sort(vec.begin(), vec.end(), [](Unit& left, Unit& right)
     {
         return left.getPosition().y < right.getPosition().y;
     });
