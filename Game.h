@@ -27,7 +27,7 @@ public:
 	std::shared_ptr<State> nextState = nullptr;
 
 	thor::ResourceHolder<sf::Texture, std::string> textures;
-
+	thor::ResourceHolder<sf::Font, std::string> fonts;
 
 
 	sf::RenderWindow window;
