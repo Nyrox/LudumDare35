@@ -31,6 +31,7 @@ public:
 
 
 	sf::RenderWindow window;
+	sf::View gameView = sf::View({ 1280 / 2, 720 / 2 }, { 1280, 720 });
 
 	Debug debug;
 

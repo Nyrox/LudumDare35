@@ -7,11 +7,11 @@
 
 MainGameState::MainGameState(Game* t_game) : State(t_game), map({500, 500}, 600, t_game), generator(game) {
 
-	decisionShape1.setSize({ game->window.getSize().x / 2 - 268.0f / 2, 242.0f });
-	decisionShape2.setSize({ game->window.getSize().x / 2 - 268.0f / 2, 242.0f });
+	decisionShape1.setSize({ 512 - 96, 242.0f - 32 });
+	decisionShape2.setSize({ 512 - 96, 242.0f - 32 });
 
-	decisionShape1.setPosition({ 40, game->window.getSize().y / 2 - decisionShape1.getSize().y / 2 });
-	decisionShape2.setPosition({ game->window.getSize().x - decisionShape2.getSize().x - 40, game->window.getSize().y / 2 - decisionShape2.getSize().y / 2 });
+	decisionShape1.setPosition({ 80, game->window.getSize().y / 2 - decisionShape1.getSize().y / 2 });
+	decisionShape2.setPosition({ game->window.getSize().x - decisionShape2.getSize().x - 80, game->window.getSize().y / 2 - decisionShape2.getSize().y / 2 });
 
 //	game->textures.acquire("Infantry", thor::Resources::fromFile<sf::Texture>("assets/Infantry.png"));
 	game->textures.acquire("Infantry", thor::Resources::fromFile<sf::Texture>("assets/animation.png"));
@@ -81,6 +81,9 @@ void MainGameState::update() {
 }
 
 void MainGameState::render(sf::RenderTarget& target) {
+	map.render(target);
+
+
 	if (substate == CHOOSING) {
 		target.draw(decisionShape1);
 		target.draw(decisionShape2);
@@ -88,7 +91,7 @@ void MainGameState::render(sf::RenderTarget& target) {
 		target.draw(decisionText2);
 	}
 
-	map.render(target);
+	
 }
 
 void MainGameState::handleEvent(const sf::Event& event) {

@@ -31,7 +31,7 @@ void Map::spawnUnit(Unit unit, Sides side)
     ref.setPosition(position);
     if (side == RIGHT) ref.setScale(-1, 1);
 
-    ref.scale(1.2 - result, 1.2 - result);
+    ref.scale(1.4 - result, 1.4 - result);
 
 }
 

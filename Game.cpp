@@ -1,6 +1,8 @@
 #include "Game.h"
 
 Game::Game(const BasicConfig& config) : window(config.video_mode, config.window_title, config.window_style) {
+	window.setView(gameView);
+
 	activeState = std::make_shared<MainGameState>(this);
 
 }
