@@ -31,8 +31,11 @@ void Map::spawnUnit(Unit unit, Sides side)
 
     sf::Vector2f position = start + diff * result;
 
-    ref.setPosition(position);
-    if (side == RIGHT) ref.setScale(-1, 1);
+    ref.shape.setPosition(position);
+    if (side == RIGHT)
+        ref.setScale(-1, 1);
+
+    ref.setPosition({side == RIGHT ? game->window.getSize().x : -ref.shape.getSize().x, game->window.getSize().y/2.f});
 
     ref.scale(4 - result, 4 - result);
 
@@ -43,7 +46,7 @@ void Map::spawnUnit(Unit unit, Sides side)
 
 }
 
-void Map::addShootLine(sf::Vector2f start, sf::Vector2f end, Game* game)
+void Map::addShootLine(sf::Vector2f start, sf::Vector2f end)
 {
     Animation anim;
     anim.setTexture(&game->textures["bullet"]);
@@ -71,7 +74,13 @@ void Map::updateUnits(Sides side, float dt)
     {
         it.shape.update(dt);
         it.accumulator += dt;
-        if(it.accumulator * it.player->fireRateModifier >= 1 / Unit::baseFireRate)
+        if(it.shape.getPosition() != sf::Vector2f())
+        {
+            it.setPosition(math::lerp(it.getPosition(), it.shape.getPosition(), dt*4.0f));
+            if(abs(math::length(it.getPosition() - it.shape.getPosition()) < 1))
+                it.setPosition(it.getPosition()), it.shape.setPosition(sf::Vector2f());
+        }
+        else if(it.accumulator * it.player->fireRateModifier >= 1 / Unit::baseFireRate)
         {
             if(enemys.empty())
                 continue;
@@ -89,7 +98,7 @@ void Map::updateUnits(Sides side, float dt)
             enemys.at(result).life -= Unit::baseDamage * it.player->damageModifier;
             enemys.at(result).flaggedToDie = enemys.at(result).life <= 0;
 
-            addShootLine(it.getPosition(), enemys.at(result).getPosition(), game);
+            addShootLine(it.getPosition(), enemys.at(result).getPosition());
         }
         else if(it.shape.loop == false && it.shape.currentFrame == it.shape.endFrame)
             it.resetAnimation();
@@ -117,24 +126,23 @@ void Map::removeDeadUnits(Sides side)
             it->player->deadCount++;
 
             it = units.erase(it);
-        }
 
-        if(it == units.end())
-            break;
+            if(it == units.end())
+                break;
+        }
     }
 }
 
 void Map::update(float dt)
 {
-
     for (auto it = corpse.begin(); it != corpse.end(); it++)
     {
         it->update(dt);
         if(it->currentFrame >= it->endFrame)
-            it = corpse.erase(it);
-
-        if(it == corpse.end())
-            break;
+        {
+            if((it = corpse.erase(it)) == corpse.end());
+                break;
+        }
     }
 
     updateUnits(LEFT, dt);
