@@ -7,9 +7,9 @@
 #include "Animation.h"
 
 const sf::Vector2f left_line_start(100.0f, 600.0f);
-const sf::Vector2f left_line_end(150.0f, 100.0f);
-const sf::Vector2f right_line_start(800.0f, 600.0f);
-const sf::Vector2f right_line_end(750.0f, 100.0f);
+const sf::Vector2f left_line_end(250.0f, 100.0f);
+const sf::Vector2f right_line_start(1180.0f, 600.0f);
+const sf::Vector2f right_line_end(930.0f, 100.0f);
 
 class Game;
 
