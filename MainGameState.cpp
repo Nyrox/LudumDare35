@@ -49,6 +49,9 @@ MainGameState::MainGameState(Game* t_game) : State(t_game), map({500, 500}, 600,
 //	game->textures.acquire("Infantry", thor::Resources::fromFile<sf::Texture>("assets/animation.png"));
 //	game->textures.acquire("Die", thor::Resources::fromFile<sf::Texture>("assets/die.png"));
 
+    left.side = Map::LEFT;
+    right.side = Map::RIGHT;
+
 	map.spawnUnit(Unit(game, &left), Map::LEFT);
 	map.spawnUnit(Unit(game, &right), Map::RIGHT);
 
@@ -62,14 +65,14 @@ void MainGameState::update() {
 		decisionTimer += game->deltaTime;
 
 		left.accumulator += game->deltaTime;
-		while (left.accumulator * left.spawnRateModifier >= 1 / Player::baseSpawnRate) {
-			left.accumulator -= 1 / Player::baseSpawnRate;
+		while (left.accumulator >= 1.f / (Player::baseSpawnRate *left.spawnRateModifier)) {
+			left.accumulator -= 1.f / (Player::baseSpawnRate * left.spawnRateModifier);
 			map.spawnUnit(Unit(game, &left), Map::LEFT);
 		}
 
 		right.accumulator += game->deltaTime;
-		while (right.accumulator * right.spawnRateModifier >= 1 / Player::baseSpawnRate) {
-			right.accumulator -= 1 / Player::baseSpawnRate;
+		while (right.accumulator >= 1.f / (Player::baseSpawnRate * right.spawnRateModifier)) {
+			right.accumulator -= 1.f / (Player::baseSpawnRate * right.spawnRateModifier);
 			map.spawnUnit(Unit(game, &right), Map::RIGHT);
 		}
 
@@ -103,6 +106,22 @@ void MainGameState::update() {
 
 	game->debug.log("Info", std::to_string(game->deltaTime));
 	map.update(game->deltaTime);
+
+	bool leftSmaller = map.leftUnits.size() < map.rightUnits.size()/2;
+	if(leftSmaller || map.rightUnits.size() < map.leftUnits.size()/2)
+    {
+        int smallerCount = (leftSmaller ? map.leftUnits.size() : map.rightUnits.size());
+        int biggerCount = (leftSmaller ? map.rightUnits.size() : map.leftUnits.size());
+
+        Player& smaller = (leftSmaller ? left : right);
+        Player& bigger = (leftSmaller ? right : left);
+//
+//        smaller.spawnRateModifier += smallerCount/biggerCount;
+//        if(smallerCount == 0)
+//            smaller.spawnRateModifier += bigger.spawnRateModifier * 2;
+        smaller.spawnRateModifier = 10.f;
+        bigger.spawnRateModifier = 1;
+    }
 }
 
 void MainGameState::render(sf::RenderTarget& target) {
@@ -145,6 +164,7 @@ void MainGameState::handleDecision(Decision* decision) {
 	substate = RUNNING;
 
 	decision->callback(game, &left);
+	decision->callback(game, &right);
 
 	dangerLevel++;
 	generator.updateDangerLevel(dangerLevel);

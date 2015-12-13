@@ -11,7 +11,7 @@ DecisionGenerator::DecisionGenerator(Game* game) : game(game)
     decisions.emplace_back(
         "Advance the front!", 0, 20, 2, &game->textures.acquire("AdvanceTheFront", thor::ResourceLoader<sf::Texture>(thor::Resources::fromFile<sf::Texture>("assets/AdvanceTheFront.png"))), [](Game* game, Player* player) -> void
     {
-        dynamic_cast<MainGameState*>(game->activeState.get())->map.spawnUnit(Unit(game, player), Map::LEFT);
+        dynamic_cast<MainGameState*>(game->activeState.get())->map.spawnUnit(Unit(game, player), player->side);
 
     }
     );
