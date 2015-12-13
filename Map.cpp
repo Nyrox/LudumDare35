@@ -104,9 +104,10 @@ void Map::removeDeadUnits(Sides side)
     {
         if (it->flaggedToDie == true)
         {
-            it->shape.fps = 2.5f;
+            it->shape.fps = 7.f;
+            it->shape.accumulator = 0;
             it->shape.startFrame = 0;
-            it->shape.endFrame = 4;
+            it->shape.endFrame = 8;
             it->shape.setCurrentFrame(it->shape.startFrame);
             it->shape.setPosition(it->getPosition());
             it->shape.setScale(it->getScale());
