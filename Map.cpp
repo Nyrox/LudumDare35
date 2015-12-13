@@ -56,7 +56,7 @@ void Map::addShootLine(sf::Vector2f start, sf::Vector2f end, Game* game)
     anim.frameSize = {100, 1};
     anim.frameGrid = {1, 10};
     anim.startFrame = 0;
-    anim.endFrame = 10;
+    anim.endFrame = 9;
     anim.setCurrentFrame(0);
     anim.loop = false;
     corpse.push_back(anim);
@@ -131,7 +131,10 @@ void Map::update(float dt)
     {
         it->update(dt);
         if(it->currentFrame >= it->endFrame)
-            it = corpse.erase(it) - 1;
+            it = corpse.erase(it);
+
+        if(it == corpse.end())
+            break;
     }
 
     updateUnits(LEFT, dt);
