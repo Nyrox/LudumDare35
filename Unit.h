@@ -14,6 +14,8 @@ public:
 	Unit(Game* game, Player* player);
 	virtual ~Unit();
 
+	void resetAnimation();
+
 	Animation shape;
 
 	void render(sf::RenderTarget& target);

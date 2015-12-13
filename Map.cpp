@@ -31,7 +31,7 @@ void Map::spawnUnit(Unit unit, Sides side)
     ref.setPosition(position);
     if (side == RIGHT) ref.setScale(-1, 1);
 
-    ref.scale(1.4 - result, 1.4 - result);
+    ref.scale(4 - result, 4 - result);
 
 }
 
@@ -40,22 +40,31 @@ void Map::updateUnits(Sides side, float dt)
     std::vector<Unit>& units = (side == LEFT ? leftUnits : rightUnits);
     std::vector<Unit>& enemys = (side == RIGHT ? leftUnits : rightUnits);
 
-    for (auto &it : units)
+    for (Unit &it : units)
     {
         it.shape.update(dt);
         it.accumulator += dt;
-        if (it.accumulator * it.player->fireRateModifier >= 1 / Unit::baseFireRate)
+        if(it.accumulator * it.player->fireRateModifier >= 1 / Unit::baseFireRate)
         {
+            if(enemys.empty())
+                continue;
+
+//            it.shape.fps = 4/Unit::baseFireRate*it.player->fireRateModifier;
+            it.shape.fps = 8;
+            it.shape.startFrame = 8;
+            it.shape.endFrame = 11;
+            it.shape.setCurrentFrame(it.shape.startFrame);
+            it.shape.loop = false;
+
             it.accumulator = 0;
 
             size_t result = math::rand(enemys.size() - 1);
 
-            if(result >= enemys.size())
-                continue;
-
             enemys.at(result).life -= Unit::baseDamage * it.player->damageModifier;
             enemys.at(result).flaggedToDie = enemys.at(result).life <= 0;
         }
+        else if(it.shape.loop == false && it.shape.currentFrame == it.shape.endFrame)
+            it.resetAnimation();
     }
 }
 
@@ -67,18 +76,13 @@ void Map::removeDeadUnits(Sides side)
     {
         if (it->flaggedToDie == true)
         {
-            Animation anim;
-            anim.setTexture(&game->textures["Die"]);
-            anim.fps = 2.5f;
-            anim.startFrame = 0;
-            anim.endFrame = 3;
-            anim.frameSize = {64, 64};
-            anim.frameGrid = {4, 4};
-            anim.setCurrentFrame(0);
-            anim.setPosition(it->getPosition());
-            anim.setScale(it->getScale());
-            anim.setSize(it->shape.getSize());
-            corpse.push_back(anim);
+            it->shape.fps = 2.5f;
+            it->shape.startFrame = 0;
+            it->shape.endFrame = 4;
+            it->shape.setCurrentFrame(it->shape.startFrame);
+            it->shape.setPosition(it->getPosition());
+            it->shape.setScale(it->getScale());
+            corpse.push_back(it->shape);
 
             it = units.erase(it);
         }
