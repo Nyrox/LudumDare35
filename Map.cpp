@@ -50,7 +50,7 @@ void Map::addShootLine(sf::Vector2f start, sf::Vector2f end)
 {
     Animation anim;
     anim.setTexture(&game->textures["bullet"]);
-    anim.setFillColor({255, 255, 255, 255.f/3.f});
+    anim.setFillColor(sf::Color{255, 255, 255, 255 / 3 });
     anim.setSize({math::getDistance(start, end), 5.f});
     anim.setOrigin({0.f, anim.getSize().y});
     anim.setPosition(start);
