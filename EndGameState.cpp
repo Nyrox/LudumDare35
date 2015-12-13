@@ -24,7 +24,7 @@ void EndGameState::handleEvent(const sf::Event& event) {
 
 void EndGameState::update() {
 	passedTime += game->deltaTime;
-	
+
 	if (passedTime <= endCutsceneLength) {
 		blendShape.setFillColor(sf::Color(210, 80, 45, 170 * math::clamp(passedTime, 0.0f, endCutsceneLength) / endCutsceneLength));
 	}
@@ -34,13 +34,13 @@ void EndGameState::update() {
 		blendShape.setFillColor(sf::Color(0, 0, 0, 255));
 		gameOverShape.setFillColor(sf::Color(255, 255, 255, 255 * math::clamp(passedTime2, 0.0f, gameOverFadeInTime) / gameOverFadeInTime));
 	}
-	
+
 
 }
 
 void EndGameState::render(sf::RenderTarget& target) {
 
-	
+
 	target.draw(screenshotShape);
 	target.draw(blendShape);
 	target.draw(gameOverShape);
