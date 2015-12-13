@@ -19,10 +19,10 @@ MainGameState::MainGameState(Game* t_game) : State(t_game), map({500, 500}, 600,
 	decisionText1.setPosition(decisionShape1.getPosition() + sf::Vector2f { 12, 12 });
 	decisionText2.setPosition(decisionShape2.getPosition() + sf::Vector2f { 12, 12 });
 
-	auto font = game->fonts.acquire("font", thor::ResourceLoader<sf::Font>(thor::Resources::fromFile<sf::Font>("assets/font.ttf")));
+	sf::Font* font = &game->fonts.acquire("font", thor::ResourceLoader<sf::Font>(thor::Resources::fromFile<sf::Font>("assets/font.ttf")));
 
-	decisionText1.setFont(font);
-	decisionText2.setFont(font);
+	decisionText1.setFont(*font);
+	decisionText2.setFont(*font);
 
 //	game->textures.acquire("Infantry", thor::Resources::fromFile<sf::Texture>("assets/Infantry.png"));
 	game->textures.acquire("Infantry", thor::Resources::fromFile<sf::Texture>("assets/animation.png"));
@@ -104,7 +104,7 @@ void MainGameState::render(sf::RenderTarget& target) {
 		target.draw(decisionText2);
 	}
 
-	
+
 }
 
 void MainGameState::handleEvent(const sf::Event& event) {
