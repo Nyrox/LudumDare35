@@ -1,5 +1,7 @@
 #include "Animation.h"
 
+#include "MathHelper.h"
+
 Animation::Animation()
 {
     //ctor
@@ -27,5 +29,5 @@ void Animation::setCurrentFrame(int frame)
 {
     currentFrame = frame;
 
-    setTextureRect({sf::Vector2i(currentFrame%frameGrid.x, currentFrame/frameGrid.x), frameSize});
+    setTextureRect({sf::Vector2i(currentFrame%frameGrid.x, currentFrame/frameGrid.x)*frameSize, frameSize});
 }

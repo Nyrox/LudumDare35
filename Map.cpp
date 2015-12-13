@@ -69,15 +69,15 @@ void Map::removeDeadUnits(Sides side)
         {
             Animation anim;
             anim.setTexture(&game->textures["Die"]);
-            anim.fps = 2;
+            anim.fps = 2.5f;
             anim.startFrame = 0;
-            anim.endFrame = 4;
+            anim.endFrame = 3;
             anim.frameSize = {64, 64};
             anim.frameGrid = {4, 4};
             anim.setCurrentFrame(0);
-//            anim.setPosition(it->getPosition());
-//            anim.setScale(it->getScale());
-            anim.setPosition({500, 500});
+            anim.setPosition(it->getPosition());
+            anim.setScale(it->getScale());
+            anim.setSize(it->shape.getSize());
             corpse.push_back(anim);
 
             it = units.erase(it);
@@ -94,9 +94,9 @@ void Map::update(float dt)
 
     for (auto it = corpse.begin(); it != corpse.end(); it++)
     {
-//        it->update(dt);
-//        if(it->currentFrame == it->endFrame)
-//            it = corpse.erase(it) - 1;
+        it->update(dt);
+        if(it->currentFrame == it->endFrame)
+            it = corpse.erase(it) - 1;
     }
 
     updateUnits(LEFT, dt);

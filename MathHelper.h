@@ -165,5 +165,10 @@ namespace math {
 		float f = atan2((a - b).y, (a - b).x) + (angles.z*(firstPosibility ? 1 : -1));
 		return sf::Vector2f(cos(f)*ac, sin(f)*ac) + b;
 	};
-
 };
+
+	template<typename T>
+	sf::Vector2<T> operator*(sf::Vector2<T> left, sf::Vector2<T> right)
+	{
+	    return {left.x*right.x, left.y*right.y};
+	}
