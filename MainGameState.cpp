@@ -38,8 +38,11 @@ MainGameState::MainGameState(Game* t_game) : State(t_game), map({500, 500}, 600,
 	killCountRight.setPosition({20, windowSize.x - 20 - getSize(killCountRight).x});
 
 	frame.setPosition(0, 0);
+	background.setPosition(0, 0);
 	frame.setSize((sf::Vector2f)game->window.getSize());
+	background.setSize((sf::Vector2f)game->window.getSize());
 	frame.setTexture(&game->textures.acquire("frame", thor::Resources::fromFile<sf::Texture>("assets/frame.png")));
+	background.setTexture(&game->textures.acquire("background", thor::Resources::fromFile<sf::Texture>("assets/Background.png")));
 
 	game->textures.acquire("Infantry", thor::Resources::fromFile<sf::Texture>("assets/all-new.png"));
 	game->textures.acquire("bullet", thor::Resources::fromFile<sf::Texture>("assets/bullet.png"));
@@ -103,6 +106,7 @@ void MainGameState::update() {
 }
 
 void MainGameState::render(sf::RenderTarget& target) {
+    target.draw(background);
 
 	map.render(target);
 
