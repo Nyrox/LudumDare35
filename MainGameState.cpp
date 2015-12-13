@@ -32,24 +32,18 @@ MainGameState::MainGameState(Game* t_game) : State(t_game), map({500, 500}, 600,
 	map.spawnUnit(Unit(game, &right), Map::RIGHT);
 
 
-
-
-	dangerLevel = 20;
+//	dangerLevel = 20;
 }
 
 void MainGameState::update() {
 
-
 	if (substate == RUNNING) {
 		decisionTimer += game->deltaTime;
-
-
 
 		left.accumulator += game->deltaTime;
 		while (left.accumulator * left.spawnRateModifier >= 1 / Player::baseSpawnRate) {
 			left.accumulator -= 1 / Player::baseSpawnRate;
 			map.spawnUnit(Unit(game, &left), Map::LEFT);
-
 		}
 
 		right.accumulator += game->deltaTime;
@@ -58,33 +52,23 @@ void MainGameState::update() {
 			map.spawnUnit(Unit(game, &right), Map::RIGHT);
 		}
 
-
-
-		if (decisionTimer >= 10) {
+		if (decisionTimer >= decisionDelay) {
 			d1 = generator.getDecision(dangerLevel);
-			d2 = generator.getDecision(dangerLevel, &d1);
+			d2 = generator.getDecision(dangerLevel, d1);
 
+			decisionShape1.setTexture(d1->image);
+			decisionShape2.setTexture(d2->image);
 
-
-			decisionShape1.setTexture(d1.image);
-			decisionShape2.setTexture(d2.image);
-
-			decisionText1.setString(d1.message);
-			decisionText2.setString(d2.message);
-
+			decisionText1.setString(d1->message);
+			decisionText2.setString(d2->message);
 
 			substate = CHOOSING;
 			decisionTimer = 0;
 		}
 
-
-
-
 	}
 
-
 	else if (substate == CHOOSING) {
-
 
 
 	}
@@ -96,15 +80,12 @@ void MainGameState::update() {
 void MainGameState::render(sf::RenderTarget& target) {
 	map.render(target);
 
-
 	if (substate == CHOOSING) {
 		target.draw(decisionShape1);
 		target.draw(decisionShape2);
 		target.draw(decisionText1);
 		target.draw(decisionText2);
 	}
-
-
 }
 
 void MainGameState::handleEvent(const sf::Event& event) {
@@ -124,21 +105,12 @@ void MainGameState::handleEvent(const sf::Event& event) {
 
 }
 
-
-void MainGameState::handleDecision(const Decision& decision) {
+void MainGameState::handleDecision(Decision* decision) {
 
 	substate = RUNNING;
 
-	decision.callback(game, &left);
-
-
-
+	decision->callback(game, &left);
 
 	dangerLevel++;
 	generator.updateDangerLevel(dangerLevel);
-
-
-
-
-
 }

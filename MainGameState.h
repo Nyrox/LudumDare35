@@ -16,16 +16,18 @@ public:
 	virtual void render(sf::RenderTarget& target) override;
 	virtual void update() override;
 
-	void handleDecision(const Decision& decision);
+	void handleDecision(Decision* decision);
 
 	float decisionTimer = 0;
+	float decisionDelay = 10;
 
 	enum SubState {
 		RUNNING, CHOOSING
 	} substate = RUNNING;
 
 	DecisionGenerator generator;
-	Decision d1, d2;
+	Decision* d1;
+	Decision* d2;
 
 	int dangerLevel = 0;
 

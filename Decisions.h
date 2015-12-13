@@ -15,8 +15,6 @@ public:
 	virtual ~Decision() = default;
 
 
-
-
 	std::string message;
 
 	int minDangerLevel; // Used to retrieve the time at which to spawn this

@@ -11,11 +11,11 @@ class DecisionGenerator {
 public:
 	DecisionGenerator(Game* game);
 
-	Decision getDecision(int dangerLevel, Decision* filter = nullptr);
+	Decision* getDecision(int dangerLevel, Decision* filter = nullptr);
 
 	void updateDangerLevel(int level);
 
-	std::vector<Decision> eligable;
+	std::vector<Decision*> eligable;
 	std::vector<Decision> decisions;
 
 	Game* game;

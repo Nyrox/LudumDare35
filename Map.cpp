@@ -55,7 +55,6 @@ void Map::updateUnits(Sides side, float dt)
             if(enemys.empty())
                 continue;
 
-//            it.shape.fps = 4/Unit::baseFireRate*it.player->fireRateModifier;
             it.shape.fps = 8;
             it.shape.startFrame = 8;
             it.shape.endFrame = 11;
@@ -97,7 +96,6 @@ void Map::removeDeadUnits(Sides side)
             break;
     }
 }
-
 
 void Map::update(float dt)
 {
