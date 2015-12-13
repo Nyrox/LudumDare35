@@ -142,7 +142,7 @@ void Map::update(float dt)
         it->update(dt);
         if(it->currentFrame >= it->endFrame)
         {
-            if((it = corpse.erase(it)) == corpse.end());
+            if((it = corpse.erase(it)), it == corpse.end());
                 break;
         }
     }
