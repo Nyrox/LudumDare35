@@ -60,7 +60,7 @@ void MainGameState::update() {
 
 
 
-		if (decisionTimer >= 4) {
+		if (decisionTimer >= 10) {
 			d1 = generator.getDecision(dangerLevel);
 			d2 = generator.getDecision(dangerLevel, &d1);
 
