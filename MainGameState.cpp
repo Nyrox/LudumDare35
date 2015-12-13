@@ -33,15 +33,15 @@ void MainGameState::update() {
 
 
 		left.accumulator += game->deltaTime;
-		if (left.accumulator * left.spawnRateModifier >= 1 / Player::baseSpawnRate) {
-			left.accumulator = 0;
+		while (left.accumulator * left.spawnRateModifier >= 1 / Player::baseSpawnRate) {
+			left.accumulator -= 1 / Player::baseSpawnRate;
 			map.spawnUnit(Unit(game, &left), Map::LEFT);
 
 		}
 
 		right.accumulator += game->deltaTime;
-		if (right.accumulator * right.spawnRateModifier >= 1 / Player::baseSpawnRate) {
-			right.accumulator = 0;
+		while (right.accumulator * right.spawnRateModifier >= 1 / Player::baseSpawnRate) {
+			right.accumulator -= 1 / Player::baseSpawnRate;
 			map.spawnUnit(Unit(game, &right), Map::RIGHT);
 		}
 
@@ -81,9 +81,6 @@ void MainGameState::update() {
 }
 
 void MainGameState::render(sf::RenderTarget& target) {
-
-	map.render(target);
-
 	if (substate == CHOOSING) {
 		target.draw(decisionShape1);
 		target.draw(decisionShape2);
@@ -91,7 +88,7 @@ void MainGameState::render(sf::RenderTarget& target) {
 		target.draw(decisionText2);
 	}
 
-
+	map.render(target);
 }
 
 void MainGameState::handleEvent(const sf::Event& event) {
@@ -113,7 +110,7 @@ void MainGameState::handleEvent(const sf::Event& event) {
 
 
 void MainGameState::handleDecision(const Decision& decision) {
-	
+
 	substate = RUNNING;
 
 	decision.callback(game, &left);
@@ -127,5 +124,5 @@ void MainGameState::handleDecision(const Decision& decision) {
 
 
 
-	
+
 }

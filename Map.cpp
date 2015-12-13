@@ -35,18 +35,12 @@ void Map::spawnUnit(Unit unit, Sides side)
 
 }
 
-
-void Map::update(float dt)
+void Map::updateUnits(Sides side, float dt)
 {
+    std::vector<Unit>& units = (side == LEFT ? leftUnits : rightUnits);
+    std::vector<Unit>& enemys = (side == RIGHT ? leftUnits : rightUnits);
 
-    for (auto it = corpse.begin(); it != corpse.end(); it++)
-    {
-        it->update(dt);
-//        if(it->currentFrame == it->endFrame)
-//            it = corpse.erase(it) - 1;
-    }
-
-    for (auto &it : leftUnits)
+    for (auto &it : units)
     {
         it.shape.update(dt);
         it.accumulator += dt;
@@ -54,57 +48,22 @@ void Map::update(float dt)
         {
             it.accumulator = 0;
 
-            size_t result = math::rand(rightUnits.size() - 1);
+            size_t result = math::rand(enemys.size() - 1);
 
-            if(result >= rightUnits.size())
+            if(result >= enemys.size())
                 continue;
 
-            rightUnits.at(result).life -= Unit::baseDamage * it.player->damageModifier;
-            rightUnits.at(result).flaggedToDie = rightUnits.at(result).life <= 0;
+            enemys.at(result).life -= Unit::baseDamage * it.player->damageModifier;
+            enemys.at(result).flaggedToDie = enemys.at(result).life <= 0;
         }
     }
+}
 
-    for (auto it = rightUnits.begin(); it != rightUnits.end(); it++)
-    {
-        it->shape.update(dt);
-        it->accumulator += dt;
-        if (it->accumulator * it->player->fireRateModifier >= 1 / Unit::baseFireRate)
-        {
-            it->accumulator = 0;
+void Map::removeDeadUnits(Sides side)
+{
+    std::vector<Unit>& units = (side == LEFT ? leftUnits : rightUnits);
 
-            int result = math::rand(leftUnits.size() - 1);
-
-            if(result >= leftUnits.size())
-                continue;
-
-            leftUnits.at(result).life -= Unit::baseDamage * it->player->damageModifier;
-            leftUnits.at(result).flaggedToDie = leftUnits.at(result).life <= 0;
-        }
-
-        if (it->flaggedToDie == true)
-        {
-            Animation anim;
-            anim.setTexture(&game->textures["Die"]);
-            anim.fps = 2;
-            anim.startFrame = 0;
-            anim.endFrame = 4;
-            anim.frameSize = {64, 64};
-            anim.frameGrid = {4, 4};
-            anim.setCurrentFrame(0);
-            anim.setPosition(it->getPosition());
-            anim.setScale(it->getScale());
-            anim.setPosition({500, 500});
-            corpse.push_back(anim);
-
-            it = rightUnits.erase(it);
-        }
-
-         if(it == rightUnits.end())
-            break;
-
-    }
-
-    for (auto it = leftUnits.begin(); it != leftUnits.end(); it++)
+    for (auto it = units.begin(); it != units.end(); it++)
     {
         if (it->flaggedToDie == true)
         {
@@ -117,18 +76,34 @@ void Map::update(float dt)
             anim.frameGrid = {4, 4};
             anim.setCurrentFrame(0);
 //            anim.setPosition(it->getPosition());
-            anim.setPosition({500, 500});
 //            anim.setScale(it->getScale());
+            anim.setPosition({500, 500});
             corpse.push_back(anim);
 
-            it = leftUnits.erase(it);
+            it = units.erase(it);
         }
 
-        if(it == leftUnits.end())
+        if(it == units.end())
             break;
     }
+}
 
 
+void Map::update(float dt)
+{
+
+    for (auto it = corpse.begin(); it != corpse.end(); it++)
+    {
+//        it->update(dt);
+//        if(it->currentFrame == it->endFrame)
+//            it = corpse.erase(it) - 1;
+    }
+
+    updateUnits(LEFT, dt);
+    updateUnits(RIGHT, dt);
+
+    removeDeadUnits(LEFT);
+    removeDeadUnits(RIGHT);
 }
 
 void Map::render(sf::RenderTarget& target)

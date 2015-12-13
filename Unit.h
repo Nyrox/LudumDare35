@@ -20,7 +20,7 @@ public:
 
 	Player* player; // Used to get global modifiers
 
-	int life;
+	int life = baseLife;
 	float accumulator = 0; // Stores the time since the last time the Unit fired
 
 

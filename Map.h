@@ -21,6 +21,9 @@ public:
 	enum Sides { LEFT, RIGHT };
 	void spawnUnit(Unit unit, Sides side);
 
+	void updateUnits(Sides side, float dt);
+	void removeDeadUnits(Sides side);
+
 	void update(float dt);
 	void render(sf::RenderTarget& target);
 
