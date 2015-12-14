@@ -38,7 +38,7 @@ void Map::spawnUnit(Unit unit, Sides side)
     sf::Vector2f start = (side == LEFT ? leftLineStart : rightLineStart);
     sf::Vector2f end = (side == LEFT ? leftLineEnd : rightLineEnd);
 
-    ref.targetPos = start + (end - start) * sf::Vector2f(result, result);
+    ref.targetPos = start + (end - start) * sf::Vector2f(result, result2);
 
     if (side == RIGHT)
         ref.setScale(-1, 1);
@@ -98,7 +98,7 @@ void Map::updateUnits(Sides side, float dt)
                 continue;
 
             it.shape.fps = 8;
-            it.shape.startFrame = 8;
+            it.shape.startFrame = 9;
             it.shape.endFrame = 11;
             it.shape.setCurrentFrame(it.shape.startFrame);
             it.shape.loop = false;
