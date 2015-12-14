@@ -17,7 +17,7 @@ class Animation : public sf::RectangleShape
         int endFrame;
 
         float fps;
-        float accumulator;
+        float accumulator = 0;
 
         sf::Vector2i frameSize;
         sf::Vector2i frameGrid;
