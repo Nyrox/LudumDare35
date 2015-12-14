@@ -138,7 +138,8 @@ void MainGameState::setDangerLevel(int danger)
     dangerLevel = std::max(danger, dangerLevel); //dangerLevel can never decrease
     nextDangerLevelUnitCount = pow(10, dangerLevel);
 
-    map.targetZoom = 3 - dangerLevel;
+//    map.targetZoom = 3 - dangerLevel;
+    map.targetZoom = 1;
 }
 
 void MainGameState::render(sf::RenderTarget& target)

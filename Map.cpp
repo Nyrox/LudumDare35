@@ -5,15 +5,18 @@
 
 Map::Map(sf::Vector2f position, float length, Game* game) : game(game)
 {
-    background.setSize((sf::Vector2f)game->window.getSize() - sf::Vector2f(0, 20));
+//    background.setSize((sf::Vector2f)game->window.getSize() - sf::Vector2f(0, 20));
+    background.setSize((sf::Vector2f)game->window.getSize());
     background.setPosition(0, 0);
     background.setTexture(&game->textures.acquire("background", thor::Resources::fromFile<sf::Texture>("assets/Background.png")));
 
     leftLineEnd.x = (game->window.getSize().x/2.f) - 100;
     rightLineEnd.x = (game->window.getSize().x/2.f) + 100;
 
-    leftLineStart.x = leftLineEnd.x - 100;
-    rightLineStart.x = rightLineEnd.x + 100;
+    leftLineStart.x = leftLineEnd.x - 300;
+    rightLineStart.x = rightLineEnd.x + 300;
+
+    groundTop = (270.f/(720.f-50.f))*game->window.getSize().y;
 }
 
 Map::~Map()
@@ -45,7 +48,7 @@ void Map::spawnUnit(Unit unit, Sides side)
 
     ref.setPosition({side == RIGHT ? game->window.getSize().x+ref.shape.getSize().x*4.f : -ref.shape.getSize().x*4.f, ref.targetPos.y});
 
-    ref.move({(game->window.getSize().x/2.f - game->window.getSize().x/2.f/zoom) * (side == LEFT ? 1.f : -1.f), 0.f});
+    ref.move({spawnRect.left * (side == LEFT ? 1.f : -1.f), 0.f});
 
     ref.scale(3 + ref.targetPos.y/game->window.getSize().y, 3 + ref.targetPos.y/game->window.getSize().y);
 
@@ -164,10 +167,13 @@ void Map::update(float dt)
 
     zoom = math::lerp(zoom, targetZoom, 3.f*dt);
 
-    leftLineStart.y = (game->window.getSize().y/2.f)-(game->window.getSize().y/zoom);
+//    leftLineStart.y = (game->window.getSize().y/2.f)-(game->window.getSize().y/zoom);
+//    rightLineStart.y = leftLineStart.y;
+
+    leftLineStart.y = spawnRect.top;
     rightLineStart.y = leftLineStart.y;
 
-    leftLineEnd.y = game->window.getSize().y - leftLineStart.y;
+    leftLineEnd.y = spawnRect.top + spawnRect.height;
     rightLineEnd.y = leftLineEnd.y;
 
 }
@@ -179,6 +185,15 @@ void Map::render(sf::RenderTarget& target)
 
     view.setSize(view.getSize() / zoom);
     target.setView(view);
+
+    spawnRect.left = (target.getSize().x/2.f - target.getSize().x/2.f/zoom);
+//    spawnRect.top = (target.getSize().y/2.f - target.getSize().y/2.f/zoom);
+//    spawnRect.top = groundTop;
+    spawnRect.top = groundTop;
+
+    spawnRect.width = target.getSize().x/zoom;
+    spawnRect.height = (target.getSize().y-(target.getSize().y/2.f - target.getSize().y/2.f/zoom)) - spawnRect.top;
+//    spawnRect.height = 100;
 
     target.draw(background);
 

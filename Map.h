@@ -33,14 +33,15 @@ public:
 	float zoom = -1.f;
 	float targetZoom = zoom;
 
+	float groundTop = 500;
+
     std::vector<Animation> corpse;
 
     Game* game;
 
     sf::RectangleShape background;
 
-    sf::Vector2f viewSize;
-
+    sf::FloatRect spawnRect;
 
     sf::Vector2f leftLineStart;
     sf::Vector2f rightLineStart;
