@@ -51,7 +51,7 @@ void Map::spawnUnit(Unit unit, Sides side)
 
     ref.move({spawnRect.left * (side == LEFT ? 1.f : -1.f), 0.f});
 
-    ref.scale(3 + ref.targetPos.y/game->window.getSize().y, 3 + ref.targetPos.y/game->window.getSize().y);
+    ref.scale(2.f + ref.targetPos.y/game->window.getSize().y, 2.f + ref.targetPos.y/game->window.getSize().y);
 
     std::sort(vec.begin(), vec.end(), [](Unit& left, Unit& right)
     {
