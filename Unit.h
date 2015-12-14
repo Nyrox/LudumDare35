@@ -21,6 +21,7 @@ public:
 	void render(sf::RenderTarget& target);
 
 	sf::Vector2f targetPos = {0, 0};
+	float targetSpeed = 2.f;
 
 	Player* player; // Used to get global modifiers
 

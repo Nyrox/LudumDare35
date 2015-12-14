@@ -34,7 +34,7 @@ void Map::spawnUnit(Unit unit, Sides side)
     float result2 = math::rand(1.0);
 
     sf::Vector2f start = (side == LEFT ? leftLineStart : rightLineStart);
-    sf::Vector2f end = (side == LEFT ? leftLineStart : rightLineEnd);
+    sf::Vector2f end = (side == LEFT ? leftLineEnd : rightLineEnd);
 
 //    position.y *= result2;
 
@@ -45,6 +45,8 @@ void Map::spawnUnit(Unit unit, Sides side)
 
 //    ref.setPosition({side == RIGHT ? game->window.getSize().x : -ref.shape.getSize().x, game->window.getSize().y/2.f});
     ref.setPosition({side == RIGHT ? game->window.getSize().x : -ref.shape.getSize().x, ref.targetPos.y});
+
+    ref.move({((game->window.getSize().x/2.f) - (game->window.getSize().x/zoom)) * (side == LEFT ? 1 : -1), 0.f});
 
     ref.scale(4 - result, 4 - result);
 
@@ -85,7 +87,7 @@ void Map::updateUnits(Sides side, float dt)
         it.accumulator += dt;
         if(it.targetPos != sf::Vector2f())
         {
-            it.setPosition(math::lerp(it.getPosition(), it.targetPos, dt*4.0f));
+            it.setPosition(math::lerp(it.getPosition(), it.targetPos, dt*it.targetSpeed));
             if(abs(math::length(it.getPosition() - it.targetPos) < 1))
                 it.setPosition(it.targetPos), (it.targetPos = sf::Vector2f());
         }
@@ -165,7 +167,7 @@ void Map::update(float dt)
 
     zoom = math::lerp(zoom, targetZoom, 3.f*dt);
 
-    leftLineStart.y = game->window.getSize().y/zoom;
+    leftLineStart.y = (game->window.getSize().y/2.f)-(game->window.getSize().y/zoom);
     rightLineStart.y = leftLineStart.y;
 
     leftLineEnd.y = game->window.getSize().y - leftLineStart.y;
