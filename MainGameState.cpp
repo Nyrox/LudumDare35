@@ -50,10 +50,6 @@ MainGameState::MainGameState(Game* t_game) : State(t_game), map({500, 500}, 600,
     left.side = Map::LEFT;
     right.side = Map::RIGHT;
 
-    map.spawnUnit(Unit(game, &left), Map::LEFT);
-    map.spawnUnit(Unit(game, &right), Map::RIGHT);
-
-
     setDangerLevel(1);
 //	dangerLevel = 20;
 }

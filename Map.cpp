@@ -33,13 +33,12 @@ void Map::spawnUnit(Unit unit, Sides side)
     float result = math::rand(1.0);
     float result2 = math::rand(1.0);
 
-    ref.targetSpeed = math::rand(ref.targetSpeed*0.5f, ref.targetSpeed*1.5f);
+    ref.targetSpeed = math::rand(ref.targetSpeed*0.5f, ref.targetSpeed*3.f);
 
     sf::Vector2f start = (side == LEFT ? leftLineStart : rightLineStart);
     sf::Vector2f end = (side == LEFT ? leftLineEnd : rightLineEnd);
 
-    ref.targetPos = start + (end - start) * result;
-    ref.targetPos.y *= result2;
+    ref.targetPos = start + (end - start) * sf::Vector2f(result, result);
 
     if (side == RIGHT)
         ref.setScale(-1, 1);
