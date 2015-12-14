@@ -28,8 +28,8 @@ public:
 	} substate = RUNNING;
 
 	DecisionGenerator generator;
-	Decision* d1;
-	Decision* d2;
+	Decision d1;
+	Decision d2;
 
 	void setDangerLevel(int danger);
 
