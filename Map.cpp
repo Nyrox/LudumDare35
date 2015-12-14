@@ -155,7 +155,7 @@ void Map::update(float dt)
             it = corpse.erase(it);
 
             if(it == corpse.end());
-            break;
+                break;
         }
     }
 

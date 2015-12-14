@@ -29,6 +29,9 @@ MainGameState::MainGameState(Game* t_game) : State(t_game), map({500, 500}, 600,
     decisionText1.setFont(*font);
     decisionText2.setFont(*font);
 
+    effectText.setFont(*font);
+    effectText.setCharacterSize(12);
+
     killCountLeft.setCharacterSize(24);
     killCountRight.setCharacterSize(killCountLeft.getCharacterSize());
 
@@ -144,6 +147,18 @@ void MainGameState::render(sf::RenderTarget& target)
 
     target.draw(frame);
 
+    effectText.setPosition({(364.f/1024.f)*game->window.getSize().x, (535.f/576.f)*game->window.getSize().y});
+    effectText.setColor(sf::Color::White);
+    for(auto it = effectTexts.rbegin(); it != effectTexts.rend(); it++)
+    {
+        effectText.setString(*it);
+        target.draw(effectText);
+        effectText.move(0, -20);
+        sf::Color c = effectText.getColor();
+        c.a -= 255.f/11;
+        effectText.setColor(c);
+    }
+
     if (substate == CHOOSING)
     {
         target.draw(decisionShape1);
@@ -158,8 +173,6 @@ void MainGameState::render(sf::RenderTarget& target)
 
 void MainGameState::handleEvent(const sf::Event& event)
 {
-
-
     if (substate == CHOOSING)
     {
         if (event.type == sf::Event::KeyPressed)
@@ -186,5 +199,10 @@ void MainGameState::handleDecision(Decision* decision)
     decision->callback(game, &right);
 
 //    dangerLevel++;
-    generator.updateDangerLevel(dangerLevel);
+//    generator.updateDangerLevel(dangerLevel);
+
+    effectTexts.push_back(decision->effectString);
+
+    while(effectTexts.size() > 6)
+        effectTexts.erase(effectTexts.begin());
 }

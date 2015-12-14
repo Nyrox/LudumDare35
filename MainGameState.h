@@ -46,6 +46,9 @@ public:
 	sf::Text decisionText1;
 	sf::Text decisionText2;
 
+	std::vector<std::string> effectTexts;
+	sf::Text effectText;
+
 	sf::Text killCountLeft;
 	sf::Text killCountRight;
 

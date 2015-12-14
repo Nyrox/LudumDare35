@@ -8,7 +8,7 @@ class Player;
 
 class Decision {
 public:
-	Decision(std::string message, int min, int max, int prob, sf::Texture* tex, std::function<void(Game*, Player*)> callback) : message(message), minDangerLevel(min), maxDangerLevel(max), probability(prob), image(tex), callback(callback) {
+	Decision(std::string message, std::string effectString, int min, int max, int prob, sf::Texture* tex, std::function<void(Game*, Player*)> callback) : message(message), effectString(effectString), minDangerLevel(min), maxDangerLevel(max), probability(prob), image(tex), callback(callback) {
 
 	}
 	Decision(){ }
@@ -16,6 +16,7 @@ public:
 
 
 	std::string message;
+	std::string effectString;
 
 	int minDangerLevel; // Used to retrieve the time at which to spawn this
 	int maxDangerLevel; // Used to retrieve the time at which to stop spawning

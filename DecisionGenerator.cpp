@@ -9,7 +9,7 @@ DecisionGenerator::DecisionGenerator(Game* game) : game(game)
 {
 
     decisions.emplace_back(
-        "Advance the front!", 0, 20, 2, &game->textures.acquire("AdvanceTheFront", thor::ResourceLoader<sf::Texture>(thor::Resources::fromFile<sf::Texture>("assets/AdvanceTheFront.png"))), [](Game* game, Player* player) -> void
+        "Advance the front!", "Seem like it wasnt the best option", 0, 20, 2, &game->textures.acquire("AdvanceTheFront", thor::ResourceLoader<sf::Texture>(thor::Resources::fromFile<sf::Texture>("assets/AdvanceTheFront.png"))), [](Game* game, Player* player) -> void
     {
         dynamic_cast<MainGameState*>(game->activeState.get())->map.spawnUnit(Unit(game, player), player->side);
 
@@ -17,7 +17,7 @@ DecisionGenerator::DecisionGenerator(Game* game) : game(game)
     );
 
     decisions.emplace_back(
-        "Stay defensive!", 0, 10, 2, &game->textures.acquire("HoldTheLine", thor::ResourceLoader<sf::Texture>(thor::Resources::fromFile<sf::Texture>("assets/HoldTheLine.png"))), [](Game* game, Player*)
+        "Stay defensive!", "It kind of scary to stay back while the enemy go forward", 0, 10, 2, &game->textures.acquire("HoldTheLine", thor::ResourceLoader<sf::Texture>(thor::Resources::fromFile<sf::Texture>("assets/HoldTheLine.png"))), [](Game* game, Player*)
     {
 
     }
@@ -26,7 +26,7 @@ DecisionGenerator::DecisionGenerator(Game* game) : game(game)
 
 
     decisions.emplace_back(
-        "End the war...", 3, 30, 3, &game->textures.acquire("EndTheWar", thor::ResourceLoader<sf::Texture>(thor::Resources::fromFile<sf::Texture>("assets/EndTheWar.png"))), [](Game* game, Player* player)
+        "End the war...", "Well that's sad", 3, 30, 3, &game->textures.acquire("EndTheWar", thor::ResourceLoader<sf::Texture>(thor::Resources::fromFile<sf::Texture>("assets/EndTheWar.png"))), [](Game* game, Player* player)
     {
         auto sp = std::make_shared<sf::RenderTexture>();
         sp->create(game->window.getSize().x, game->window.getSize().y);
