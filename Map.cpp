@@ -5,7 +5,9 @@
 
 Map::Map(sf::Vector2f position, float length, Game* game) : game(game)
 {
-
+    background.setSize((sf::Vector2f)game->window.getSize() - sf::Vector2f(0, 20));
+    background.setPosition(0, 0);
+    background.setTexture(&game->textures.acquire("background", thor::Resources::fromFile<sf::Texture>("assets/Background.png")));
 }
 
 Map::~Map()
@@ -23,19 +25,22 @@ void Map::spawnUnit(Unit unit, Sides side)
 
     // Map a random factor onto the lines
     float result = math::rand(1.0);
+    float result2 = math::rand(1.0);
 
-    sf::Vector2f start = side == LEFT ? left_line_start : right_line_start;
-    sf::Vector2f end = side == LEFT ? left_line_end : right_line_end;
+    sf::Vector2f start = (side == LEFT ? left_line_start : right_line_start);
+    sf::Vector2f end = (side == LEFT ? left_line_end : right_line_end);
 
-    sf::Vector2f diff = end - start;
+    sf::Vector2f diff = (end - start) * result2;
 
     sf::Vector2f position = start + diff * result;
 
-    ref.shape.setPosition(position);
+    ref.targetPos = position;
+
     if (side == RIGHT)
         ref.setScale(-1, 1);
 
-    ref.setPosition({side == RIGHT ? game->window.getSize().x : -ref.shape.getSize().x, game->window.getSize().y/2.f});
+//    ref.setPosition({side == RIGHT ? game->window.getSize().x : -ref.shape.getSize().x, game->window.getSize().y/2.f});
+    ref.setPosition({side == RIGHT ? game->window.getSize().x : -ref.shape.getSize().x, position.y});
 
     ref.scale(4 - result, 4 - result);
 
@@ -50,7 +55,7 @@ void Map::addShootLine(sf::Vector2f start, sf::Vector2f end)
 {
     Animation anim;
     anim.setTexture(&game->textures["bullet"]);
-    anim.setFillColor(sf::Color{255, 255, 255, 255 / 3 });
+    anim.setFillColor(sf::Color {255, 255, 255, 255 / 3 });
     anim.setSize({math::getDistance(start, end), 5.f});
     anim.setOrigin({0.f, anim.getSize().y});
     anim.setPosition(start);
@@ -74,13 +79,14 @@ void Map::updateUnits(Sides side, float dt)
     {
         it.shape.update(dt);
         it.accumulator += dt;
-        if(it.shape.getPosition() != sf::Vector2f())
+        if(it.targetPos != sf::Vector2f())
         {
-            it.setPosition(math::lerp(it.getPosition(), it.shape.getPosition(), dt*4.0f));
-            if(abs(math::length(it.getPosition() - it.shape.getPosition()) < 1))
-                it.setPosition(it.getPosition()), it.shape.setPosition(sf::Vector2f());
+            it.setPosition(math::lerp(it.getPosition(), it.targetPos, dt*4.0f));
+            if(abs(math::length(it.getPosition() - it.targetPos) < 1))
+                it.setPosition(it.targetPos), (it.targetPos = sf::Vector2f());
         }
-        else if(it.accumulator * it.player->fireRateModifier >= 1 / Unit::baseFireRate)
+
+        if(it.accumulator * it.player->fireRateModifier >= 1 / Unit::baseFireRate)
         {
             if(enemys.empty())
                 continue;
@@ -143,7 +149,7 @@ void Map::update(float dt)
             it = corpse.erase(it);
 
             if(it == corpse.end());
-                break;
+            break;
         }
     }
 
@@ -152,10 +158,20 @@ void Map::update(float dt)
 
     removeDeadUnits(LEFT);
     removeDeadUnits(RIGHT);
+
+    zoom = math::lerp(zoom, targetZoom, 2.f*dt);
 }
 
 void Map::render(sf::RenderTarget& target)
 {
+    sf::View resetView = target.getView();
+    sf::View view = resetView;
+
+    view.setSize(view.getSize() / zoom);
+    target.setView(view);
+
+    target.draw(background);
+
     for (Unit& unit : leftUnits)
         unit.render(target);
 
@@ -164,4 +180,6 @@ void Map::render(sf::RenderTarget& target)
 
     for (Animation& anim : corpse)
         target.draw(anim);
+
+    target.setView(resetView);
 }

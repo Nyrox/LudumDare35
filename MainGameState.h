@@ -16,25 +16,29 @@ public:
 	virtual void render(sf::RenderTarget& target) override;
 	virtual void update() override;
 
+	virtual void updatePlayer(Player& player);
+
 	void handleDecision(Decision* decision);
 
 	float decisionTimer = 0;
-	float decisionDelay = 4;
+	float decisionDelay = 3;
 
 	enum SubState {
 		RUNNING, CHOOSING
 	} substate = RUNNING;
 
 	DecisionGenerator generator;
-	Decision d1;
-	Decision d2;
+	Decision* d1;
+	Decision* d2;
 
+	void setDangerLevel(int danger);
+
+	int nextDangerLevelUnitCount = 0;
 	int dangerLevel = 0;
 
 	Map map;
 
 	sf::RectangleShape frame;
-	sf::RectangleShape background;
 
 	sf::RectangleShape decisionShape1;
 	sf::RectangleShape decisionShape2;

@@ -29,16 +29,20 @@ public:
 	void update(float dt);
 	void render(sf::RenderTarget& target);
 
-
 	std::vector<Unit> leftUnits;
 	std::vector<Unit> rightUnits;
 
 	float rightUnitRate = 5.f;
 	float leftUnitRate = 5.f;
 
+	float zoom = -1.f;
+	float targetZoom = zoom;
+
     std::vector<Animation> corpse;
 
     Game* game;
+
+    sf::RectangleShape background;
 
 };
 
