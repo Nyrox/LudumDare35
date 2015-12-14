@@ -21,7 +21,8 @@ public:
 	void render(sf::RenderTarget& target);
 
 	sf::Vector2f targetPos = {0, 0};
-	float targetSpeed = 2.f;
+	float speed = 0.f;
+	float targetSpeed = 100.f;
 
 	Player* player; // Used to get global modifiers
 
@@ -29,7 +30,7 @@ public:
 	float accumulator = 0; // Stores the time since the last time the Unit fired
 
 	const static int baseLife = 100;
-	const static int baseDamage = 40;
+	const static int baseDamage = 0;
 
 	const static float baseFireRate; // 0.5f
 

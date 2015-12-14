@@ -33,10 +33,10 @@ void Map::spawnUnit(Unit unit, Sides side)
     float result = math::rand(1.0);
     float result2 = math::rand(1.0);
 
+    ref.targetSpeed = math::rand(ref.targetSpeed*0.5f, ref.targetSpeed*1.5f);
+
     sf::Vector2f start = (side == LEFT ? leftLineStart : rightLineStart);
     sf::Vector2f end = (side == LEFT ? leftLineEnd : rightLineEnd);
-
-//    position.y *= result2;
 
     ref.targetPos = start + (end - start) * result;
     ref.targetPos.y *= result2;
@@ -44,10 +44,9 @@ void Map::spawnUnit(Unit unit, Sides side)
     if (side == RIGHT)
         ref.setScale(-1, 1);
 
-//    ref.setPosition({side == RIGHT ? game->window.getSize().x : -ref.shape.getSize().x, game->window.getSize().y/2.f});
-    ref.setPosition({side == RIGHT ? game->window.getSize().x : -ref.shape.getSize().x, ref.targetPos.y});
+    ref.setPosition({side == RIGHT ? game->window.getSize().x+ref.shape.getSize().x*4.f : -ref.shape.getSize().x*4.f, ref.targetPos.y});
 
-    ref.move({((game->window.getSize().x/2.f) - (game->window.getSize().x/zoom)) * (side == LEFT ? 1 : -1), 0.f});
+    ref.move({(game->window.getSize().x/2.f - game->window.getSize().x/2.f/zoom) * (side == LEFT ? 1.f : -1.f), 0.f});
 
     ref.scale(3 + ref.targetPos.y/game->window.getSize().y, 3 + ref.targetPos.y/game->window.getSize().y);
 
@@ -88,7 +87,8 @@ void Map::updateUnits(Sides side, float dt)
         it.accumulator += dt;
         if(it.targetPos != sf::Vector2f())
         {
-            it.setPosition(math::lerp(it.getPosition(), it.targetPos, dt*it.targetSpeed));
+            it.speed = math::lerp(it.speed, it.targetSpeed, dt*0.1f);
+            it.move(math::normalize(it.targetPos-it.getPosition())*it.speed*dt);
             if(abs(math::length(it.getPosition() - it.targetPos) < 1))
                 it.setPosition(it.targetPos), (it.targetPos = sf::Vector2f());
         }
