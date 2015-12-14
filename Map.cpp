@@ -147,16 +147,13 @@ void Map::removeDeadUnits(Sides side)
 
 void Map::update(float dt)
 {
-    for (auto it = corpse.begin(); it != corpse.end(); it++)
+    for (auto it = corpse.begin(); it != corpse.end();)
     {
         it->update(dt);
         if(it->currentFrame >= it->endFrame)
-        {
             it = corpse.erase(it);
-
-            if(it == corpse.end());
-                break;
-        }
+        else
+            it++;
     }
 
     updateUnits(LEFT, dt);
@@ -193,6 +190,7 @@ void Map::render(sf::RenderTarget& target)
 
     for (Animation& anim : corpse)
         target.draw(anim);
+//        anim.draw(target);
 
     target.setView(resetView);
 }

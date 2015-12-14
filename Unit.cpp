@@ -3,7 +3,7 @@
 
 #include "Player.h"
 
-const float Unit::baseFireRate = 0.5f;
+const float Unit::baseFireRate = 0.2f;
 
 Unit::Unit(Game* game, Player* player) : player(player) {
 
@@ -35,4 +35,5 @@ void Unit::render(sf::RenderTarget& target)
 	states.transform.translate(-shape.getPosition());
 
 	target.draw(shape, states);
+//	shape.draw(target, states);
 }
