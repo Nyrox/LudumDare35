@@ -8,6 +8,12 @@ Map::Map(sf::Vector2f position, float length, Game* game) : game(game)
     background.setSize((sf::Vector2f)game->window.getSize() - sf::Vector2f(0, 20));
     background.setPosition(0, 0);
     background.setTexture(&game->textures.acquire("background", thor::Resources::fromFile<sf::Texture>("assets/Background.png")));
+
+    leftLineEnd.x = (game->window.getSize().x/2.f) - 100;
+    rightLineEnd.x = (game->window.getSize().x/2.f) + 100;
+
+    leftLineStart.x = leftLineEnd.x - 100;
+    rightLineStart.x = rightLineEnd.x + 100;
 }
 
 Map::~Map()
@@ -27,20 +33,18 @@ void Map::spawnUnit(Unit unit, Sides side)
     float result = math::rand(1.0);
     float result2 = math::rand(1.0);
 
-    sf::Vector2f start = (side == LEFT ? left_line_start : right_line_start);
-    sf::Vector2f end = (side == LEFT ? left_line_end : right_line_end);
+    sf::Vector2f start = (side == LEFT ? leftLineStart : rightLineStart);
+    sf::Vector2f end = (side == LEFT ? leftLineStart : rightLineEnd);
 
-    sf::Vector2f diff = (end - start) * result2;
+//    position.y *= result2;
 
-    sf::Vector2f position = start + diff * result;
-
-    ref.targetPos = position;
+    ref.targetPos = start + (end - start) * result;
 
     if (side == RIGHT)
         ref.setScale(-1, 1);
 
 //    ref.setPosition({side == RIGHT ? game->window.getSize().x : -ref.shape.getSize().x, game->window.getSize().y/2.f});
-    ref.setPosition({side == RIGHT ? game->window.getSize().x : -ref.shape.getSize().x, position.y});
+    ref.setPosition({side == RIGHT ? game->window.getSize().x : -ref.shape.getSize().x, ref.targetPos.y});
 
     ref.scale(4 - result, 4 - result);
 
@@ -159,7 +163,14 @@ void Map::update(float dt)
     removeDeadUnits(LEFT);
     removeDeadUnits(RIGHT);
 
-    zoom = math::lerp(zoom, targetZoom, 2.f*dt);
+    zoom = math::lerp(zoom, targetZoom, 3.f*dt);
+
+    leftLineStart.y = game->window.getSize().y/zoom;
+    rightLineStart.y = leftLineStart.y;
+
+    leftLineEnd.y = game->window.getSize().y - leftLineStart.y;
+    rightLineEnd.y = leftLineEnd.y;
+
 }
 
 void Map::render(sf::RenderTarget& target)

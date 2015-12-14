@@ -6,11 +6,6 @@
 #include "Unit.h"
 #include "Animation.h"
 
-const sf::Vector2f left_line_start(100.0f, 600.0f);
-const sf::Vector2f left_line_end(250.0f, 100.0f);
-const sf::Vector2f right_line_start(1180.0f, 600.0f);
-const sf::Vector2f right_line_end(930.0f, 100.0f);
-
 class Game;
 
 class Map {
@@ -43,6 +38,12 @@ public:
     Game* game;
 
     sf::RectangleShape background;
+
+
+    sf::Vector2f leftLineStart;
+    sf::Vector2f rightLineStart;
+    sf::Vector2f leftLineEnd;
+    sf::Vector2f rightLineEnd;
 
 };
 
