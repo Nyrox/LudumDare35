@@ -33,7 +33,8 @@ public:
 	float zoom = -1.f;
 	float targetZoom = zoom;
 
-	float groundTop = 500;
+	float groundTop;
+	float groundbottom;
 
     std::vector<Animation> corpse;
 

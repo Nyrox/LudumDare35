@@ -17,6 +17,7 @@ Map::Map(sf::Vector2f position, float length, Game* game) : game(game)
     rightLineStart.x = rightLineEnd.x + 300;
 
     groundTop = (270.f/(720.f-50.f))*game->window.getSize().y;
+    groundbottom = game->window.getSize().y - (180.f/(574.f))*game->window.getSize().y;
 }
 
 Map::~Map()
@@ -192,7 +193,7 @@ void Map::render(sf::RenderTarget& target)
     spawnRect.top = groundTop;
 
     spawnRect.width = target.getSize().x/zoom;
-    spawnRect.height = (target.getSize().y-(target.getSize().y/2.f - target.getSize().y/2.f/zoom)) - spawnRect.top;
+    spawnRect.height = std::min(groundbottom, (target.getSize().y-(target.getSize().y/2.f - target.getSize().y/2.f/zoom))) - spawnRect.top;
 //    spawnRect.height = 100;
 
     target.draw(background);
