@@ -39,6 +39,8 @@ public:
 
     sf::RectangleShape background;
 
+    sf::Vector2f viewSize;
+
 
     sf::Vector2f leftLineStart;
     sf::Vector2f rightLineStart;
