@@ -7,8 +7,8 @@ struct BasicConfig {
 	sf::VideoMode video_mode = sf::VideoMode(1280-100, 720-50);
 //	sf::VideoMode video_mode = sf::VideoMode::getDesktopMode();
 
-	std::string window_title = "Ludum Dare 35";
-	std::size_t window_style = sf::Style::Default;
+	std::string window_title = "War...";
+	std::size_t window_style = sf::Style::Default xor sf::Style::Resize;
 
 	// @Todo(Nyrox || Lapinozz) Implement config loading and saving
 };
