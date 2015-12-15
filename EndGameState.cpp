@@ -10,9 +10,18 @@ EndGameState::EndGameState(Game* t_game, std::shared_ptr<sf::RenderTexture> scre
 
 	blendShape.setSize(screenshotShape.getSize());
 
-	gameOverShape.setFillColor(sf::Color(255, 255, 255, 0));
-	gameOverShape.setTexture(&game->textures.acquire("GameOver", thor::ResourceLoader<sf::Texture>(thor::Resources::fromFile<sf::Texture>("assets/GameOver.png"))));
-	gameOverShape.setSize((sf::Vector2f)game->window.getSize());
+	    sf::Font* font = &game->fonts["font"];
+	    gameOverShape.setFont(*font);
+	    gameOverShape.setCharacterSize(36);
+	    gameOverShape.setPosition((sf::Vector2f)game->window.getSize()/2.f);
+	    gameOverShape.setString("War is never the end");
+
+
+//	gameOverShape.Colo(sf::Color(255, 255, 255, 255));
+//	gameOverShape.setTexture(&game->textures.acquire("GameOver", thor::ResourceLoader<sf::Texture>(thor::Resources::fromFile<sf::Texture>("assets/GameOver.png"))));
+//	gameOverShape.setSize((sf::Vector2f)game->window.getSize());
+
+
 }
 
 
@@ -32,7 +41,7 @@ void EndGameState::update() {
 		passedTime2 += game->deltaTime;
 
 		blendShape.setFillColor(sf::Color(0, 0, 0, 255));
-		gameOverShape.setFillColor(sf::Color(255, 255, 255, 255 * math::clamp(passedTime2, 0.0f, gameOverFadeInTime) / gameOverFadeInTime));
+//		gameOverShape.setFillColor(sf::Color(255, 255, 255, 255 * math::clamp(passedTime2, 0.0f, gameOverFadeInTime) / gameOverFadeInTime));
 	}
 
 

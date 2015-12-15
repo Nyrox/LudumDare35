@@ -59,7 +59,7 @@ DecisionGenerator::DecisionGenerator(Game* game) : game(game)
         player->spawnRateModifier *= 0.9f;
     });
 
-    addDecision("End the war...", "Well that's sad", 3, 3, 3, "EndTheWar", [](Game* game, Player* player)
+    addDecision("Nuke...", "Well that's sad", 3, 4, 4, "EndTheWar", [](Game* game, Player* player)
     {
         auto sp = std::make_shared<sf::RenderTexture>();
         sp->create(game->window.getSize().x, game->window.getSize().y);

@@ -16,7 +16,7 @@ public:
 	float spawnRateModifier = 1.0f;
 	float balancingSpawnRateModifier = 1.0f;
 
-	static const float baseSpawnRate; // 0.3f
+	static float baseSpawnRate; // 0.3f
 
 	Map::Sides side;
 

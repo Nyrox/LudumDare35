@@ -20,7 +20,10 @@ public:
 
 	void run();
 
+    sf::Music music;
+    	sf::SoundBuffer buff;
 
+    sf::Sound sound;
 
 
 	std::shared_ptr<State> activeState;

@@ -54,6 +54,8 @@ MainGameState::MainGameState(Game* t_game) : State(t_game), map({500, 500}, 600,
     right.side = Map::RIGHT;
 
     setDangerLevel(1);
+    effectTexts.push_back("To win you have to kill them all");
+    effectTexts.push_back("Use left and right arrow key to make a decision");
 //	dangerLevel = 20;
 }
 
@@ -131,15 +133,36 @@ void MainGameState::update()
     int totalUnitCount = map.leftUnits.size() + map.rightUnits.size();
     if(totalUnitCount >= nextDangerLevelUnitCount)
         setDangerLevel(dangerLevel + 1);
+
+    if(left.deadCount+right.deadCount > 1500)
+        setDangerLevel(4);
 }
 
 void MainGameState::setDangerLevel(int danger)
 {
-    dangerLevel = std::max(danger, dangerLevel); //dangerLevel can never decrease
+
+    if(danger <= dangerLevel)
+        return;
+
+    dangerLevel = danger;
+
     nextDangerLevelUnitCount = pow(10, dangerLevel);
 
-//    map.targetZoom = 3 - dangerLevel;
-    map.targetZoom = 1;
+    if(dangerLevel == 3)
+        nextDangerLevelUnitCount = 250;
+
+    map.targetZoom = 4.f - dangerLevel;
+//    map.targetZoom = 4.f - (float)dangerLevel*0.5f;
+    Player::baseSpawnRate = 0.5f*dangerLevel;
+//    map.targetZoom = 1;
+
+    map.targetZoom = std::max(1.f, map.targetZoom);
+
+    generator.updateDangerLevel(dangerLevel);
+
+    effectTexts.push_back("CONFLICT LEVEL: " + std::to_string(dangerLevel));
+    effectTexts.push_back("CONFLICT LEVEL: " + std::to_string(dangerLevel));
+    effectTexts.push_back("CONFLICT LEVEL: " + std::to_string(dangerLevel));
 }
 
 void MainGameState::render(sf::RenderTarget& target)

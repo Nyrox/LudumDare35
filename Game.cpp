@@ -7,6 +7,11 @@ Game::Game(const BasicConfig& config) : window(config.video_mode, config.window_
 
 	activeState = std::make_shared<MainGameState>(this);
 
+//	buff.loadFromFile("./assets/music.ogg");
+	music.openFromFile("./assets/music.ogg");
+	music.play();
+	music.setLoop(true);
+
 }
 
 void Game::run() {

@@ -17,7 +17,7 @@ void Unit::resetAnimation()
 {
     shape.fps = 3;
 	shape.startFrame = 12;
-	shape.endFrame = 13;
+	shape.endFrame = 12;
 	shape.frameSize = {64, 64};
 	shape.frameGrid = {4, 4};
 	shape.setCurrentFrame(shape.startFrame);
