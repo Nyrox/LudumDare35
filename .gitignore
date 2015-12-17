@@ -35,3 +35,8 @@
 *.vcxproj
 *.filters
 *.idb
+.nativecodeanalysis.xml
+Release/*.nativecodeanalysis.xml
+*.kra
+*.png~
+Release/vc.nativecodeanalysis.all.xml

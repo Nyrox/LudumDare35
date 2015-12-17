@@ -13,11 +13,11 @@ public:
     void update(float dt);
     void setCurrentFrame(int frame);
 
-    int currentFrame;
-    int startFrame;
-    int endFrame;
+    int currentFrame = 0;
+    int startFrame = 0;
+    int endFrame = 0;
 
-    float fps;
+    float fps = 0;
     float accumulator = 0;
 
     sf::Vector2i frameSize;

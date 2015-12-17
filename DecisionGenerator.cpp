@@ -16,50 +16,51 @@ DecisionGenerator::DecisionGenerator(Game* game) : game(game)
 
 #define addDecision(Text, Effect, min, max, prob, textureName, lambda) decisions.emplace_back(Text, Effect, min, max, prob, &game->textures[textureName], lambda);
 
-    addDecision("Become More Aggressive", "The Military Council approve", 0, 2, 2, "AdvanceTheFront", [](Game* game, Player* player) -> void
+    addDecision("Advance the front.", "This will not end well...", 0, 2, 2, "AdvanceTheFront", [](Game* game, Player* player) -> void
     {
         dynamic_cast<MainGameState*>(game->activeState.get())->map.spawnUnit(Unit(game, player), player->side);
     });
 
-    addDecision("Stay defensive", "It kind of scary to stay back while the enemy go forward", 0, 2, 4, "HoldTheLine", [](Game* game, Player* player)
+    addDecision("Hold the line!", "Watching the enemy advance is kinda frightening...", 0, 2, 4, "HoldTheLine", [](Game* game, Player* player)
     {
 
     });
 
-    addDecision("Recruit More Units", "The Population do not really understand your choices", 0, 2, 2, "HoldTheLine", [](Game* game, Player* player)
+    addDecision("Recruit more locals...", "This will cost us a lot of support...", 0, 2, 2, "HoldTheLine", [](Game* game, Player* player)
     {
         dynamic_cast<MainGameState*>(game->activeState.get())->map.spawnUnit(Unit(game, player), player->side);        dynamic_cast<MainGameState*>(game->activeState.get())->map.spawnUnit(Unit(game, player), player->side);
         dynamic_cast<MainGameState*>(game->activeState.get())->map.spawnUnit(Unit(game, player), player->side);        dynamic_cast<MainGameState*>(game->activeState.get())->map.spawnUnit(Unit(game, player), player->side);
         dynamic_cast<MainGameState*>(game->activeState.get())->map.spawnUnit(Unit(game, player), player->side);        dynamic_cast<MainGameState*>(game->activeState.get())->map.spawnUnit(Unit(game, player), player->side);
     });
 
-    addDecision("Send Spy", "Why would you spy? is there not enough dead already?", 0, 2, 2, "HoldTheLine", [](Game* game, Player* player)
+    addDecision("Spy on the enemy!", "Most of our spies got killed in a few days...", 0, 2, 2, "HoldTheLine", [](Game* game, Player* player)
     {
         player->deadCount += 10;
 
     });
 
-    addDecision("Request Bomber", "It seem like the bombs exploded in one of our camp", 0, 2, 2, "HoldTheLine", [](Game* game, Player* player)
+    addDecision("Request bomb strikes!", "Our planes are just getting shot down and hurting our own men!", 0, 2, 2, "HoldTheLine", [](Game* game, Player* player)
     {
         player->deadCount += 20;
     });
 
-    addDecision("Build Hospital", "Your population appreciate", 0, 2, 2, "HoldTheLine", [](Game* game, Player* player)
+    addDecision("Advance the local infrastructure!", "The locals appreciate your efforts, but so does the enemy...", 0, 2, 2, "HoldTheLine", [](Game* game, Player* player)
     {
         player->spawnRateModifier *= 1.1;
     });
 
-    addDecision("Invest in Medication", "The Military Council doesn't like you to put money on this", 0, 2, 2, "HoldTheLine", [](Game* game, Player* player)
+    addDecision("Invest in Medication", "This will be a great help to our people!", 0, 2, 2, "HoldTheLine", [](Game* game, Player* player)
     {
         player->fireRateModifier *= 1.1;
     });
 
-    addDecision("Make a money campaign", "People accept to give money but stop enrolling", 0, 2, 2, "HoldTheLine", [](Game* game, Player* player)
+    addDecision("Try to raise money...", "A small shortterm help, but our reputation did suffer a lot...", 0, 2, 2, "HoldTheLine", [](Game* game, Player* player)
     {
         player->spawnRateModifier *= 0.9f;
+		player->damageModifier *= 1.05;
     });
 
-    addDecision("Nuke...", "Well that's sad", 3, 4, 4, "EndTheWar", [](Game* game, Player* player)
+    addDecision("End the war...", "If you say so commander...", 3, 4, 4, "EndTheWar", [](Game* game, Player* player)
     {
         auto sp = std::make_shared<sf::RenderTexture>();
         sp->create(game->window.getSize().x, game->window.getSize().y);

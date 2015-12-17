@@ -22,7 +22,7 @@ public:
 	sf::RectangleShape screenshotShape;
 	sf::RectangleShape blendShape;
 
-	sf::Text gameOverShape;
+	sf::RectangleShape gameOverShape;
 
 
 	float passedTime = 0;

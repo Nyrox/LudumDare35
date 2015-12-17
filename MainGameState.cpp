@@ -134,8 +134,8 @@ void MainGameState::update()
     if(totalUnitCount >= nextDangerLevelUnitCount)
         setDangerLevel(dangerLevel + 1);
 
-    if(left.deadCount+right.deadCount > 1500)
-        setDangerLevel(4);
+
+	
 }
 
 void MainGameState::setDangerLevel(int danger)
@@ -146,7 +146,7 @@ void MainGameState::setDangerLevel(int danger)
 
     dangerLevel = danger;
 
-    nextDangerLevelUnitCount = pow(10, dangerLevel);
+    nextDangerLevelUnitCount = pow(9, dangerLevel);
 
     if(dangerLevel == 3)
         nextDangerLevelUnitCount = 250;

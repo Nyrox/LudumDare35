@@ -33,7 +33,7 @@ public:
 		if (message == rhs.message)
 			return true;
 
-
+		return false;
 	}
 
 };
